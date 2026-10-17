@@ -126,33 +126,36 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--moss); outline-
 }
 .bio-signature { width: 100%; max-width: 380px; margin-top: 12px; }
 
-/* Карта */
+/* Карта — коллаж из двух старых карт */
 .map {
-  display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 40px;
-  align-items: center; padding-top: 40px; padding-bottom: 96px;
+  position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: minmax(40px, auto); padding-top: 40px; padding-bottom: 96px;
 }
+.map-mark-top { grid-column: 1 / 4; grid-row: 1; }
 .map-title {
-  font-family: var(--narrow); font-size: clamp(4rem, 10vw, 9rem); line-height: .85; margin-bottom: .1em;
-  transform: scaleY(1.3); transform-origin: bottom left; margin-bottom: .35em;
+  grid-column: 1 / 8; grid-row: 2; z-index: 3; align-self: end; margin: 0 0 -.12em;
+  font-family: var(--narrow); font-size: clamp(4rem, 12vw, 11rem); line-height: .8;
 }
+.map-old { margin: 0; overflow: hidden; position: relative; }
+.map-old img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.map-old-a { grid-column: 1 / 9; grid-row: 3 / 6; }
+.map-old-b { grid-column: 6 / 13; grid-row: 4 / 7; margin-top: 80px; z-index: 2; outline: 12px solid var(--ink); }
+.map-pin {
+  position: absolute; left: 66.2%; top: 56.6%; width: 64px; height: 64px; margin: -32px 0 0 -32px;
+  border: 1.5px solid var(--moss); border-radius: 50%;
+  box-shadow: 0 0 40px 10px rgba(168, 240, 140, .35), inset 0 0 24px rgba(168, 240, 140, .4);
+}
+.map-pin::after { content: ''; position: absolute; inset: -1px; border: 1.5px solid var(--moss); border-radius: 50%; animation: map-pulse 2.6s ease-out infinite; }
+@keyframes map-pulse { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
+.map-bar {
+  grid-column: 9 / 13; grid-row: 3; align-self: end; z-index: 3; margin: 0; padding: 16px 0 16px 22px;
+  background: var(--ink); font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; line-height: 1;
+  font-size: clamp(1.3rem, 2.4vw, 2rem); color: var(--frost);
+}
+.map-text { grid-column: 1 / 6; grid-row: 6 / 8; padding: 40px 32px 0 0; }
 .map-lead { color: var(--moss); text-transform: uppercase; letter-spacing: .14em; font-size: .78rem; font-weight: 700; }
 .map-text p:not(.map-lead) { color: var(--dim); max-width: 360px; }
 .map-text .btn { margin-top: 12px; }
-.map-svg { width: 100%; height: auto; overflow: visible; }
-.map-land { fill: rgba(215, 220, 255, .03); stroke: var(--frost); stroke-width: 1.6; stroke-linejoin: round; }
-.map-rivers { fill: none; stroke: var(--frost); stroke-width: 1; opacity: .35; }
-.map-glow { fill: var(--moss); opacity: .12; filter: blur(14px); }
-.map-ring { fill: none; stroke: var(--moss); stroke-width: 1.5; opacity: .8; }
-.map-dot { fill: var(--moss); }
-.map-leader { stroke: var(--moss); stroke-width: 1.2; }
-.map-label { fill: var(--frost); font-family: var(--grotesk); font-weight: 700; font-size: 44px; text-transform: uppercase; letter-spacing: -.01em; }
-.map-sub { fill: var(--moss); font-family: var(--grotesk); font-size: 26px; }
-.map-river-name { fill: var(--dim); font-family: var(--grotesk); font-style: italic; font-size: 24px; }
-.js .map-land { stroke-dasharray: var(--len, 0); stroke-dashoffset: var(--len, 0); }
-.js .map.is-in .map-land { stroke-dashoffset: 0; transition: stroke-dashoffset 3.2s cubic-bezier(.4, 0, .2, 1); }
-.js .map-ring { transform-box: fill-box; transform-origin: center; }
-.js .map.is-in .map-ring { animation: map-pulse 2.6s ease-out 1.2s infinite; }
-@keyframes map-pulse { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(2.2); opacity: 0; } }
 
 /* Направления */
 .section-title { font-size: .78rem; letter-spacing: .22em; color: var(--moss); margin-bottom: 24px; }
@@ -301,14 +304,20 @@ body.no-scroll { overflow: hidden; }
   .bio-bar { margin-top: -40px; padding: 16px 0; text-align: left; }
   .bio-bar-b { margin-top: -30px; }
   .bio-mark-bottom { text-align: left; margin-top: 32px; }
-  .map, .page-grid, .quiz-teaser { grid-template-columns: 1fr; }
+  .map { display: flex; flex-direction: column; }
+  .map-title { margin-bottom: -.1em; }
+  .map-old-a { aspect-ratio: 4 / 3; }
+  .map-old-b { width: 88%; margin: -48px 0 0 auto; outline-width: 8px; }
+  .map-bar { padding: 16px 0; }
+  .map-text { padding: 8px 0 0; }
+  .page-grid, .quiz-teaser { grid-template-columns: 1fr; }
   .service-list a { grid-template-columns: 40px minmax(0, 1fr); }
   .service-desc { grid-column: 2; text-align: left; }
   .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .contacts { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
-  .container { padding: 0 16px; }
+  .container { padding-left: 16px; padding-right: 16px; }
   .nav { padding: 8px 16px 24px; }
   .hero-coords { left: 16px; }
   .products { grid-template-columns: 1fr; }
@@ -320,6 +329,5 @@ body.no-scroll { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; }
-  .js .map-land { stroke-dashoffset: 0; }
-  .js .map.is-in .map-ring, .quiz-backdrop, .quiz-window, .quiz-card, .quiz-card.leaving { animation: none; }
+  .map-pin::after, .quiz-backdrop, .quiz-window, .quiz-card, .quiz-card.leaving { animation: none; }
 }
