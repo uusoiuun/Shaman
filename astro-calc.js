@@ -198,8 +198,9 @@
       var sc = 0, els = [STEM_EL[stem], STEM_EL[BRANCH_MAIN[branch]]];
       els.forEach(function (e, i) { var w = i ? 1.2 : 1; if (useful.indexOf(e) >= 0) sc += w; else if (unfavorable.indexOf(e) >= 0) sc -= w; });
       // Животное удачи делает период хорошим или сглаживает трудный, союзник — поддерживает
-      if (branch === friend) sc = Math.max(sc, 0) + 1;
+      if (branch === friend) sc = Math.max(sc, 0) + 1; // удачный во всех смыслах
       else if (allies.indexOf(branch) >= 0) sc += 0.5;
+      if (branch === wealthAnimal) sc = Math.max(sc, -0.5) + 0.5; // удачный для денег, трудность смягчается
       return sc;
     }
     // Такты удачи
