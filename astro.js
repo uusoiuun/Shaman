@@ -672,7 +672,7 @@
       function (card) {
         card.querySelector('[data-act="restart"]').addEventListener('click', function () { state = { form: state.form, answers: [], step: 0 }; save(); renderForm(); });
         card.querySelector('[data-act="pdf"]').addEventListener('click', function (e) {
-          if (window.SakhaPDF) window.SakhaPDF.download(card, open ? 'Астрологический разбор' : 'Астрологический разбор — первый взгляд', f.name, e.currentTarget, 'Рождение: ' + f.date.split('-').reverse().join('.') + (f.noTime ? ', время неизвестно' : ', ' + f.time) + ', ' + cityName(c) + (open ? '' : '. Полный разбор не открыт'));
+          if (window.SakhaPDF) window.SakhaPDF.download(card, open ? 'Астрологический разбор' : 'Астрологический разбор — первый взгляд', f.name, e.currentTarget);
         });
         var codeForm = card.querySelector('.astro-code');
         if (codeForm) codeForm.addEventListener('submit', function (e) {

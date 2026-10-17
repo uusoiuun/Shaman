@@ -4,9 +4,6 @@
   var SITE = 'https://sakhashaman.pro';
   var CONTACTS = 'WhatsApp 8 914 828-69-69  ·  uus.oyuun@yandex.ru  ·  Instagram @uus.oiuun  ·  sakhashaman.pro';
   var INK = '#14141c', DIM = '#62677d', ACCENT = '#3f7d2b', LINE = '#d9dbe6';
-  // Адрес веб-приложения Google Apps Script: присылает копию PDF на почту и пишет строку в таблицу
-  var REPORT_URL = '';
-  var CONTACT_KEY = 'sakha-contact';
   var loading = null;
 
   function loadScript(src) {
@@ -184,60 +181,17 @@
       .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
   }
 
-  function getContact() { try { return JSON.parse(localStorage.getItem(CONTACT_KEY)) || null; } catch (e) { return null; } }
-  function setContact(c) { try { localStorage.setItem(CONTACT_KEY, JSON.stringify(c)); } catch (e) {} }
-
-  // Копия шаману. Ответ не читаем (no-cors), человеку скачивание не мешает
-  function send(doc, file, title, name, phone, extra) {
-    if (!REPORT_URL) return;
-    doc.getBase64(function (b64) {
-      try {
-        fetch(REPORT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ title: title, name: name || '', phone: phone, extra: extra || '', file: file, pdf: b64 }) });
-      } catch (e) {}
-    });
-  }
-
-  function make(card, title, name, phone, extra, button) {
+  // card — элемент с результатом, title — заголовок файла, name — имя человека
+  function download(card, title, name, button) {
     var label = button ? button.textContent : '';
     if (button) { button.disabled = true; button.textContent = 'Готовлю PDF…'; }
     return ready().then(function () {
       var file = 'sakhashaman-' + slug(title) + (name ? '-' + slug(name) : '') + '.pdf';
-      var doc = window.pdfMake.createPdf(build(card, title, name));
-      doc.download(file);
-      send(doc, file, title, name, phone, extra);
+      window.pdfMake.createPdf(build(card, title, name)).download(file);
     }).catch(function () {
       alert('Не удалось создать PDF. Проверьте интернет и попробуйте ещё раз.');
     }).then(function () {
       if (button) { button.disabled = false; button.textContent = label; }
-    });
-  }
-
-  // Перед первым скачиванием спрашиваем телефон и согласие на обработку данных
-  function download(card, title, name, button, extra) {
-    var saved = getContact();
-    if (saved && saved.phone && saved.agree) return make(card, title, name, saved.phone, extra, button);
-    var box = button && button.parentNode;
-    var old = card.querySelector('.pdf-form'); if (old) { old.querySelector('input').focus(); return; }
-    var form = document.createElement('form');
-    form.className = 'pdf-form'; form.noValidate = true;
-    form.innerHTML = '<label for="pdf-phone">Ваш телефон или WhatsApp</label>' +
-      '<input id="pdf-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 900 000-00-00" maxlength="24">' +
-      '<label class="pdf-agree"><input type="checkbox"> <span>Я даю согласие на обработку моих персональных данных и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>' +
-      '<p class="diag-note">Копия результата придёт шаману, чтобы он мог подготовиться к разговору с вами.</p>' +
-      '<p class="diag-error" hidden></p>' +
-      '<button class="btn btn-lime" type="submit">Получить PDF</button>';
-    (box && box.parentNode ? box.parentNode : card).insertBefore(form, box ? box.nextSibling : null);
-    var phone = form.querySelector('#pdf-phone'), agree = form.querySelector('[type=checkbox]'), err = form.querySelector('.diag-error');
-    phone.focus();
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var v = phone.value.trim(), digits = v.replace(/\D/g, '');
-      if (digits.length < 10 || digits.length > 15) { err.textContent = 'Проверьте номер телефона.'; err.hidden = false; phone.focus(); return; }
-      if (!agree.checked) { err.textContent = 'Нужно согласие на обработку данных.'; err.hidden = false; return; }
-      setContact({ phone: v, agree: true, at: new Date().toISOString() });
-      form.remove();
-      make(card, title, name, v, extra, button);
     });
   }
   window.SakhaPDF = { download: download, build: build, ready: ready };
