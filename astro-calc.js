@@ -187,9 +187,20 @@
     var favor = strong ? [GEN[dmEl], CTRL[dmEl], controllerOf(dmEl)] : [parentOf(dmEl), dmEl];
     if (strong) favor.sort(function (a, b) { return count[a] - count[b]; });
     var useful = favor.slice(0, 2), unfavorable = strong ? [parentOf(dmEl), dmEl] : [controllerOf(dmEl), CTRL[dmEl]];
+    // Животное удачи (тайный друг, шесть гармоний) и союзники (три гармонии) ветви дня
+    var SIX = [1, 0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
+    var TRIADS = [[8, 0, 4, 'water'], [11, 3, 7, 'wood'], [2, 6, 10, 'fire'], [5, 9, 1, 'metal']];
+    var friend = SIX[dBranch], triad = TRIADS.filter(function (t) { return t.indexOf(dBranch) >= 0 && t.indexOf(dBranch) < 3; })[0];
+    var allies = triad.slice(0, 3).filter(function (b) { return b !== dBranch; });
+    // Талисман богатства по ветви дня: Крыса → Коза, Бык → Обезьяна, … Свинья → Лошадь
+    var wealthAnimal = (dBranch + 7) % 12;
     function rate(stem, branch) {
       var sc = 0, els = [STEM_EL[stem], STEM_EL[BRANCH_MAIN[branch]]];
       els.forEach(function (e, i) { var w = i ? 1.2 : 1; if (useful.indexOf(e) >= 0) sc += w; else if (unfavorable.indexOf(e) >= 0) sc -= w; });
+      // Животное удачи делает период хорошим или сглаживает трудный, союзник — поддерживает
+      if (branch === friend) sc = Math.max(sc, 0) + 1; // удачный во всех смыслах
+      else if (allies.indexOf(branch) >= 0) sc += 0.5;
+      if (branch === wealthAnimal) sc = Math.max(sc, -0.5) + 0.5; // удачный для денег, трудность смягчается
       return sc;
     }
     // Такты удачи
@@ -201,13 +212,13 @@
     for (var i = 1; i <= 9; i++) {
       var st = ((mStem + (forward ? i : -i)) % 10 + 10) % 10, br = ((mBranch + (forward ? i : -i)) % 12 + 12) % 12;
       var age = startAge + (i - 1) * 10;
-      luck.push({ stem: st, branch: br, age: age, from: utcMs + age * 31557600000, score: rate(st, br), god: tenGod(dStem, st) });
+      luck.push({ stem: st, branch: br, age: age, from: utcMs + age * 31557600000, score: rate(st, br), god: tenGod(dStem, st), friend: br === friend, ally: allies.indexOf(br) >= 0, wealth: br === wealthAnimal });
     }
     // Годы ближайшего будущего
     var nowYear = new Date().getFullYear(), years = [];
     for (var yy = nowYear; yy < nowYear + 10; yy++) {
       var ys = ((yy - 4) % 10 + 10) % 10, yb = ((yy - 4) % 12 + 12) % 12;
-      years.push({ year: yy, stem: ys, branch: yb, score: rate(ys, yb) });
+      years.push({ year: yy, stem: ys, branch: yb, score: rate(ys, yb), friend: yb === friend, ally: allies.indexOf(yb) >= 0, wealth: yb === wealthAnimal });
     }
     // Символические звёзды
     var branches = pillars.map(function (p) { return p[1]; });
@@ -234,7 +245,8 @@
       pillars: pillars, dayStem: dStem, dayBranch: dBranch, dmEl: dmEl, strong: strong, count: count,
       useful: useful, unfavorable: unfavorable, luck: luck, years: years, stars: stars, gods: gods,
       forward: forward, startAge: startAge, solarTime: hasTime ? sd : null,
-      spouseEl: gender === 'm' ? CTRL[dmEl] : controllerOf(dmEl), wealthEl: CTRL[dmEl]
+      spouseEl: gender === 'm' ? CTRL[dmEl] : controllerOf(dmEl), wealthEl: CTRL[dmEl],
+      friend: friend, allies: allies, triadEl: triad[3], wealthAnimal: wealthAnimal
     };
   }
 
