@@ -65,6 +65,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--moss); outline-
 .btn-primary:hover { background: var(--moss); border-color: var(--moss); }
 .btn-ghost { background: transparent; color: var(--frost); }
 .btn-ghost:hover { border-color: var(--moss); color: var(--moss); }
+.btn-lime { background: var(--moss); border-color: var(--moss); color: var(--ink); }
+.btn-lime:hover { background: var(--frost); border-color: var(--frost); }
 .btn-small { padding: 12px 18px; font-size: .7rem; background: transparent; color: var(--frost); }
 .btn-small:hover { background: var(--frost); color: var(--ink); }
 
@@ -92,12 +94,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--moss); outline-
   position: absolute; right: -2%; bottom: -6%; width: 78%;
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .9));
 }
-.hero-coords {
-  position: absolute; left: 32px; bottom: 8px; margin: 0;
-  font-size: .78rem; letter-spacing: .08em; color: var(--dim);
-}
-.hero-coords span { color: var(--moss); font-size: 1.4rem; letter-spacing: 0; margin-right: 10px; }
-
 /* Биография — коллаж */
 .bio {
   position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -298,12 +294,14 @@ body.no-scroll { overflow: hidden; }
   .nav a { padding: 14px 0; font-size: .85rem; border-bottom: 1px solid var(--line); }
 }
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; padding-bottom: 96px; }
+  .hero { grid-template-columns: 1fr; padding-bottom: 24px; }
+  .bio { padding-top: 32px; padding-bottom: 48px; margin-bottom: 0; }
+  .bio-mark-bottom { display: none; }
+  .map { padding-top: 16px; }
   .hero-word { order: -1; text-align: left; padding-top: 8px; }
   .photo-word { transform-origin: top left; font-size: 31vw; margin-bottom: 23vw; }
   .hero-signature { right: 0; bottom: -4%; width: 70%; }
   .hero-note { margin-left: 0; text-align: left; }
-  .hero-coords { position: static; margin-top: 8px; }
   .bio { display: flex; flex-direction: column; gap: 0; }
   .bio-line { display: none; }
   .bio-quote { text-align: left; padding: 24px 0; }
@@ -326,7 +324,6 @@ body.no-scroll { overflow: hidden; }
 @media (max-width: 560px) {
   .container { padding-left: 16px; padding-right: 16px; }
   .nav { padding: 8px 16px 24px; }
-  .hero-coords { left: 16px; }
   .products { grid-template-columns: 1fr; }
   .product-img { aspect-ratio: 16 / 9; }
   .event { grid-template-columns: 1fr; gap: 12px; }

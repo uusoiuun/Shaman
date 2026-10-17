@@ -186,7 +186,7 @@
       entries.forEach(function (e) {
         if (e.isIntersecting) { map.classList.add('is-in'); obs.disconnect(); }
       });
-    }, { threshold: .2 }).observe(map);
+    }, { threshold: .05 }).observe(map);
   } else if (map) {
     map.classList.add('is-in');
   }
