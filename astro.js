@@ -533,9 +533,9 @@
       if (OWN[x.key].indexOf(x.sidSign) >= 0) return 'свой знак';
       return '';
     }
-    var vRowsUnused = chart.planets.filter(function (x) { return x.key !== 'Lilith' && ['Uranus', 'Neptune', 'Pluto'].indexOf(x.key) < 0; }).map(function (x) {
+    var vRows = chart.planets.filter(function (x) { return x.key !== 'Lilith' && ['Uranus', 'Neptune', 'Pluto'].indexOf(x.key) < 0; }).map(function (x) {
       var name = x.key === 'NorthNode' ? 'Раху' : x.key === 'SouthNode' ? 'Кету' : GRAHA[x.key];
-      return '<tr><td>' + name + '</td><td>' + SIGNS[x.sidSign] + ' ' + deg(x.sidDeg) + '</td><td>' + NAK[x.nak][0] + '</td><td>' + (x.vhouse || '—') + '</td><td>' + dignity(x) + '</td></tr>';
+      return '<tr><td>' + name + '</td><td>' + NAK[x.nak][0] + '</td><td>' + (x.vhouse || '—') + '</td><td>' + dignity(x) + '</td></tr>';
     }).join('');
     var dashaRows = ved.dashas.list.filter(function (d) { return d.end > birth && ageAt(d.start, birth) < 95; }).map(function (d) {
       var cur = d.start <= now && d.end > now;
@@ -543,10 +543,12 @@
     }).join('');
     var rahu = P.NorthNode, ketu = P.SouthNode;
     var vedSec = sec(4, 'Ведическая астрология (джйотиш)',
-      '<div class="astro-vedic"><div>' +
+      '<div class="diag-two"><div>' +
       (lagnaS !== undefined ? '<p class="diag-small">Лагна (восходящий знак)</p><p class="diag-big">' + SIGNS[lagnaS] + '</p><p>Тело и судьба строятся через ' + SIGN_QUALITY[lagnaS] + '.</p>' : '<p class="diag-note">Без времени рождения лагна и дома не определяются — ниже разбор по Луне.</p>') +
+      '<p class="diag-small">Накшатра Луны</p><p class="diag-mid">' + nak[0] + ', пада ' + ved.dashas.pada + '</p><p>' + cap(nak[1]) + '. Это ключ к вашей душе и эмоциональной природе.</p>' +
       '<p class="diag-small">Атмакарака — планета души</p><p>' + GRAHA[ved.atmakaraka] + ': ' + AK_TEXT[ved.atmakaraka] + '.</p>' +
       '<p class="diag-small">Ось Раху — Кету</p><p>Раху в знаке ' + SIGNS[rahu.sidSign] + (rahu.vhouse ? ', ' + rahu.vhouse + ' дом' : '') + ' — жажда роста через ' + (rahu.vhouse ? HOUSE[rahu.vhouse - 1] : SIGN_QUALITY[rahu.sidSign]) + '. Кету в знаке ' + SIGNS[ketu.sidSign] + (ketu.vhouse ? ', ' + ketu.vhouse + ' дом' : '') + ' — врождённое знание и отрешённость в сфере «' + (ketu.vhouse ? HOUSE[ketu.vhouse - 1] : SIGN_QUALITY[ketu.sidSign]) + '».</p>' +
+      '</div><div class="astro-table-wrap"><table class="astro-table"><thead><tr><th>Граха</th><th>Накшатра</th><th>Дом</th><th>Сила</th></tr></thead><tbody>' + vRows + '</tbody></table>' +
       '<p class="diag-note">Сидерический зодиак, айанамша Лахири ' + deg(ved.ayanamsa) + ', дома по знакам.</p></div></div>' +
       '<p class="diag-small" style="margin-top:28px">Вимшоттари-даши — большие периоды жизни</p><ul class="astro-timeline">' + dashaRows + '</ul>');
 
