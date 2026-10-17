@@ -8,6 +8,7 @@
   var WHATSAPP = '79148286969', STORE = 'sakha-astro-v1', UNLOCK = 'sakha-astro-open', FREE_USED = 'sakha-astro-free';
   // Тестовый режим: столько разборов в браузере открываются без кода. Перед публикацией поставить 0.
   var FREE_TESTS = 0;
+  var PRICE = '1999 ₽';
   // SHA-256 (первые 24 знака) кодов доступа, которые шаман выдаёт после оплаты
   var CODE_HASHES = ["0024bf28baa13f99303e6228", "4e834516701d5812a7225ef8", "3b0615c12114a278d70e4729", "318591a9d7f92f667e91ce9a", "90d952769d97b760621a9bba", "ca34d59826d91e61f8c4c4a4", "569f9c28f534735801a65478", "97bbb108d2a9377d45a5726e", "c6885343f326f63d561e25a7", "5e60ba3991b6c044420c1d55", "dfe4d4919b336c2d02d4cc82", "78e7675e42c5c5dcde499e96", "3ae4c33f30d8aa1e5af137b8", "61d2d357d80803d56eab5777", "531621d465bc5e0037a8b0eb", "ef92db400f084c3108076841", "48aaab3b303282a39430f826", "8374770e5248a6662c3357af", "1af9ba14c72453fbfa35a4e6", "45cf1b9b9c43e6801724ddb0", "fba9e96f15d211eceee71ef3", "d8cfbebd1f18b33b42adf247", "6500d0cfc3dde8162b9ceb71", "91a3b658f1da5d9fc8c900ed", "3265b4cd0d34c26fa387c222", "8f91f73872db519897e43a15", "0fe977b79d17da54001638c4", "a345555b72c81b0fbbceb4e7", "108d31b9ec2e4a49b0bb6412", "6379623d3f98da9e350adf79"];
   var stage = root.querySelector('.astro-stage');
@@ -645,11 +646,11 @@
 
     var disclaimer = '<p class="astro-disclaimer">Этот разбор даёт возможности для изучения себя и раскрытия своих потенциалов. Автор тестирования не даёт гарантий, а лишь делится инструментами, которыми пользуется сам и результаты которых увидел на себе.</p>';
 
-    var waMsg = 'Здравствуйте! Хочу полный астрологический разбор.\nИмя: ' + (f.name || '—') + '\nДата: ' + f.date + (f.noTime ? ' (время неизвестно)' : ', ' + f.time) + '\nМесто: ' + cityName(c);
-    var gate = '<div class="astro-gate"><p class="diag-small">Полный разбор — платный</p><h4>Откройте полный разбор</h4>' +
+    var waMsg = 'Здравствуйте! Хочу полный астрологический разбор за ' + PRICE + '.\nИмя: ' + (f.name || '—') + '\nДата: ' + f.date + (f.noTime ? ' (время неизвестно)' : ', ' + f.time) + '\nМесто: ' + cityName(c);
+    var gate = '<div class="astro-gate"><p class="diag-small">Полный разбор — ' + PRICE + '</p><h4>Откройте полный разбор за ' + PRICE + '</h4>' +
       '<ul class="astro-includes"><li><sup>/1</sup>Психологический портрет и архетипы</li><li><sup>/2</sup>Профориентация с ключом из детства и 6 профессий</li><li><sup>/3</sup>Западная карта: планеты, дома, аспекты, узлы, Лилит</li><li><sup>/4</sup>Ведическая карта и большие периоды-даши</li><li><sup>/5</sup>Бацзы: стихия денег, такты удачи, лучшие годы</li><li><sup>/6</sup>Лучшие города для карьеры, денег, любви и жизни</li><li><sup>/7</sup>Периоды жизни по десятилетиям</li><li><sup>/8</sup>Рекомендации и <sup>/9</sup>итог</li></ul>' +
       '<p>Чтобы получить код доступа, напишите шаману.</p>' +
-      '<div class="diag-actions"><a class="btn btn-lime" target="_blank" rel="noopener" href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waMsg) + '">Оплатить и получить код</a></div>' +
+      '<div class="diag-actions"><a class="btn btn-lime" target="_blank" rel="noopener" href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waMsg) + '">Оплатить ' + PRICE + ' и получить код</a></div>' +
       '<form class="astro-code"><label for="as-code">Код доступа</label><div><input id="as-code" type="text" placeholder="UO-XXXX-XXXX" autocomplete="off"><button class="btn btn-ghost" type="submit">Открыть</button></div><p class="diag-error" hidden>Код не подошёл. Проверьте написание или напишите шаману.</p></form></div>';
 
     scrollTop();
