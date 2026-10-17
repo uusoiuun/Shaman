@@ -178,6 +178,21 @@
     if (e.key === 'Escape' && !quiz.hidden) closeQuiz();
   });
 
+  // Карта прорисовывается, когда доходит до экрана
+  document.documentElement.classList.add('js');
+  var map = document.querySelector('.map');
+  var land = map && map.querySelector('.map-land');
+  if (land && land.getTotalLength) land.style.setProperty('--len', Math.ceil(land.getTotalLength()));
+  if (map && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { map.classList.add('is-in'); obs.disconnect(); }
+      });
+    }, { threshold: .25 }).observe(map);
+  } else if (map) {
+    map.classList.add('is-in');
+  }
+
   window.addEventListener('hashchange', route);
   route();
 })();
