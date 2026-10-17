@@ -29,6 +29,7 @@
         <a href="#nastavnichestvo" data-tab="nastavnichestvo">Наставничество</a>
         <a href="#retrity" data-tab="retrity">Ретриты</a>
         <a href="#magazin" data-tab="magazin">Магазин</a>
+        <a href="#diagnostika" data-tab="diagnostika">Диагностика</a>
         <a href="#kontakty" data-tab="kontakty">Контакты</a>
       </nav>
     </div>
@@ -99,6 +100,7 @@
           <li><a href="#nastavnichestvo" data-tab="nastavnichestvo"><sup>/4</sup><span class="service-name">Наставничество</span><span class="service-desc">Работа с практикующими шаманами</span></a></li>
           <li><a href="#retrity" data-tab="retrity"><sup>/5</sup><span class="service-name">Ретриты</span><span class="service-desc">Все предстоящие ретриты</span></a></li>
           <li><a href="#magazin" data-tab="magazin"><sup>/6</sup><span class="service-name">Магазин</span><span class="service-desc">Одежда и шаманская атрибутика</span></a></li>
+          <li><a href="#diagnostika" data-tab="diagnostika"><sup>/7</sup><span class="service-name">Диагностика предназначения</span><span class="service-desc">Тест из 100 вопросов: архетипы, бацзы, нумерология</span></a></li>
         </ol>
       </div>
 
@@ -299,6 +301,22 @@
       </div>
     </section>
 
+    <!-- 7. ДИАГНОСТИКА ПРЕДНАЗНАЧЕНИЯ (вопросы и расчёты в diag.js) -->
+    <section id="diagnostika" class="tab-panel" data-panel="diagnostika" hidden>
+      <div class="container page">
+        <p class="eyebrow">/7</p>
+        <h1>Диагностика предназначения</h1>
+        <p class="page-lead">Распаковка личности · 5 блоков по 20 вопросов · 15–20 минут</p>
+        <div class="diag-intro">
+          <p>Тест помогает понять, что вам по-настоящему нравится делать, в чём ваш талант и как превратить его в доход. В основе — архетипы личности, психологический портрет, учение о пяти стихиях, а по дате рождения считаются бацзы, нумерология и знак зодиака.</p>
+          <p>Отвечайте быстро, первым чувством. Ответы сохраняются в вашем браузере, поэтому можно прерваться и продолжить позже.</p>
+        </div>
+        <div id="diag" class="diag" aria-live="polite">
+          <div class="diag-stage"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- КОНТАКТЫ -->
     <section id="kontakty" class="tab-panel" data-panel="kontakty" hidden>
       <div class="container page">
@@ -345,5 +363,6 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="diag.js"></script>
 </body>
 </html>
