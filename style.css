@@ -415,6 +415,8 @@ body.no-scroll { overflow: hidden; }
 .astro-years { display: flex; flex-wrap: wrap; gap: 8px; }
 .astro-years span { display: grid; padding: 10px 14px; border: 1px solid var(--line); font-size: .78rem; color: var(--dim); }
 .astro-years b { color: var(--frost); font-size: 1rem; }
+.astro-years i { font-style: normal; font-size: .68rem; color: var(--moss); text-transform: uppercase; letter-spacing: .06em; margin-top: 2px; }
+.astro-timeline em { font-style: normal; color: var(--moss); }
 .astro-years .rgood { border-color: var(--moss); }
 .astro-years .rgood b { color: var(--moss); }
 .astro-years .rhard { border-color: rgba(255, 156, 138, .5); }
