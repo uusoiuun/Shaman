@@ -666,11 +666,15 @@
       '<p class="diag-note">' + dp[2] + '.' + String(dp[1]).padStart(2, '0') + '.' + dp[0] + (f.noTime ? ', время неизвестно' : ', ' + f.time) + ' · ' + esc(cityName(c)) + ' (' + c[3].toFixed(2) + '°, ' + c[4].toFixed(2) + '°) · UTC' + (tzH >= 0 ? '+' : '') + tzH + '</p>' +
       (open ? psychSec + proSec + westSec + vedSec + baziSec + acgSec + periodSec + recSec + finalSec : teaser + gate) +
       disclaimer +
-      '<div class="diag-actions"><a class="btn btn-ghost" target="_blank" rel="noopener" href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Здравствуйте! Я получил(а) астрологический разбор на сайте и хочу обсудить его лично.') + '">Обсудить с шаманом</a>' +
-      '<button class="btn btn-lime" type="button" data-act="pdf">Скачать PDF</button>' +
+      '<div class="diag-actions"><button class="btn btn-lime" type="button" data-act="share">Отправить шаману и записаться на личный приём-консультацию</button>' +
+      '<button class="btn btn-ghost" type="button" data-act="pdf">Скачать PDF</button>' +
       '<button class="btn btn-ghost" type="button" data-act="restart">Новый разбор</button></div>',
       function (card) {
         card.querySelector('[data-act="restart"]').addEventListener('click', function () { state = { form: state.form, answers: [], step: 0 }; save(); renderForm(); });
+        card.querySelector('[data-act="share"]').addEventListener('click', function (e) {
+          if (window.SakhaPDF) window.SakhaPDF.share(card, open ? 'Астрологический разбор' : 'Астрологический разбор — первый взгляд', f.name, e.currentTarget, WHATSAPP,
+            'Здравствуйте! Я получил(а) астрологический разбор на сайте и хочу записаться на личный приём-консультацию.\nИмя: ' + (f.name || '—') + '\nДата: ' + f.date.split('-').reverse().join('.') + (f.noTime ? ' (время неизвестно)' : ', ' + f.time) + '\nМесто: ' + cityName(c));
+        });
         card.querySelector('[data-act="pdf"]').addEventListener('click', function (e) {
           if (window.SakhaPDF) window.SakhaPDF.download(card, open ? 'Астрологический разбор' : 'Астрологический разбор — первый взгляд', f.name, e.currentTarget);
         });

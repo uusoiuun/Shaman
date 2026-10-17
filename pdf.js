@@ -181,18 +181,54 @@
       .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
   }
 
+  function fileName(title, name) { return 'sakhashaman-' + slug(title) + (name ? '-' + slug(name) : '') + '.pdf'; }
+  function busy(button, on) {
+    if (!button) return;
+    if (on) { button.dataset.label = button.textContent; button.disabled = true; button.textContent = 'Готовлю PDF…'; }
+    else { button.disabled = false; button.textContent = button.dataset.label; }
+  }
+  function fail() { alert('Не удалось создать PDF. Проверьте интернет и попробуйте ещё раз.'); }
+
   // card — элемент с результатом, title — заголовок файла, name — имя человека
   function download(card, title, name, button) {
-    var label = button ? button.textContent : '';
-    if (button) { button.disabled = true; button.textContent = 'Готовлю PDF…'; }
+    busy(button, true);
     return ready().then(function () {
-      var file = 'sakhashaman-' + slug(title) + (name ? '-' + slug(name) : '') + '.pdf';
-      window.pdfMake.createPdf(build(card, title, name)).download(file);
-    }).catch(function () {
-      alert('Не удалось создать PDF. Проверьте интернет и попробуйте ещё раз.');
-    }).then(function () {
-      if (button) { button.disabled = false; button.textContent = label; }
-    });
+      window.pdfMake.createPdf(build(card, title, name)).download(fileName(title, name));
+    }).catch(fail).then(function () { busy(button, false); });
   }
-  window.SakhaPDF = { download: download, build: build, ready: ready };
+
+  // Человек сам отправляет PDF шаману. На телефоне — меню «Поделиться» с файлом,
+  // на компьютере — скачивание файла и чат WhatsApp с готовым текстом
+  function share(card, title, name, button, phone, msg) {
+    var text = msg + '\n\nОтправляю свой результат: ' + title + '.';
+    var wa = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(text + ' Файл PDF прикреплю.');
+    var cached = button && button._pdf;
+    if (cached) return send(cached);
+    var win = null;
+    busy(button, true);
+    return ready().then(function () {
+      return new Promise(function (ok) { window.pdfMake.createPdf(build(card, title, name)).getBlob(ok); });
+    }).then(function (blob) {
+      busy(button, false);
+      var file = new File([blob], fileName(title, name), { type: 'application/pdf' });
+      if (button) button._pdf = file;
+      return send(file, true);
+    }).catch(function (e) { busy(button, false); if (!e || e.name !== 'AbortError') fail(); });
+
+    function send(file, late) {
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        return navigator.share({ files: [file], title: title, text: text }).catch(function (e) {
+          // Браузер мог запретить «Поделиться» после ожидания — просим нажать ещё раз, файл уже готов
+          if (late && e && e.name === 'NotAllowedError' && button) { button.textContent = 'Файл готов — нажмите ещё раз'; return; }
+          if (!e || e.name !== 'AbortError') location.href = wa;
+        });
+      }
+      var a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = file.name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 60000);
+      win = window.open(wa, '_blank', 'noopener');
+      if (!win) location.href = wa;
+    }
+  }
+  window.SakhaPDF = { download: download, share: share, build: build, ready: ready };
 })();
