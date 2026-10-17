@@ -178,6 +178,19 @@
     if (e.key === 'Escape' && !quiz.hidden) closeQuiz();
   });
 
+  // Карта оживает, когда доходит до экрана
+  document.documentElement.classList.add('js');
+  var map = document.querySelector('.map');
+  if (map && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { map.classList.add('is-in'); obs.disconnect(); }
+      });
+    }, { threshold: .2 }).observe(map);
+  } else if (map) {
+    map.classList.add('is-in');
+  }
+
   window.addEventListener('hashchange', route);
   route();
 })();
