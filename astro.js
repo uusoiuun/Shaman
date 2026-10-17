@@ -473,7 +473,7 @@
       '<li><b>Кто вы.</b> Архетип <em>' + A1.name + '</em>, Солнце в знаке ' + sunS + (ascS ? ', Асцендент в знаке ' + ascS : '') + ', Хозяин дня в бацзы — ' + dmName + '. Самая сильная черта по тесту — ' + BIG5[trait][1] + '.</li>' +
       (p.childText ? '<li><b>Ключ из детства.</b> «' + esc(p.childText) + '» — ' + (code3.indexOf(p.childCode[0]) >= 0 ? 'это совпадает с вашим взрослым кодом и подтверждает призвание.' : 'верните это в жизнь: детская радость подсказывает, где ваша сила.') + '</li>' : '') +
       '<li><b>Дело.</b> Ваш код профориентации — ' + code3.map(function (k) { return RIASEC[k][0]; }).join(' · ') + '. Лучше всего подходит: ' + jobs.slice(0, 3).map(function (j) { return j.name.toLowerCase(); }).join('; ') + '.</li>' +
-      '<li><b>Деньги.</b> Вы — ' + EL[bz.dmEl] + ', ваша стихия денег — ' + EL[bz.wealthEl] + ': ' + ACTIVITIES[bz.wealthEl].slice(0, 4).join(', ') + '. Юпитер (удача) в знаке ' + SIGNS[P.Jupiter.sign] + (P.Jupiter.house ? ', ' + P.Jupiter.house + ' дом — ' + HOUSE[P.Jupiter.house - 1] : '') + '.</li>' +
+      '<li><b>Деньги.</b> Вы — ' + EL[bz.dmEl] + ', ваша стихия денег — ' + EL[bz.wealthEl] + ': ' + ACTIVITIES[bz.wealthEl].slice(0, 4).join(', ') + '. Талисман богатства — ' + BRANCH_RU[bz.wealthAnimal] + '. Юпитер (удача) в знаке ' + SIGNS[P.Jupiter.sign] + (P.Jupiter.house ? ', ' + P.Jupiter.house + ' дом — ' + HOUSE[P.Jupiter.house - 1] : '') + '.</li>' +
       '<li><b>Любовь.</b> Венера в знаке ' + SIGNS[P.Venus.sign] + ': вы любите ' + SIGN_STYLE[P.Venus.sign] + (chart.angles ? '. Партнёр по Десценденту — ' + SIGN_QUALITY[(Math.floor(chart.angles.asc / 30) + 6) % 12] : '') + (bz.stars.peach ? '. В карте есть Персиковый цветок — сильное обаяние' : '') + '.</li>' +
       (acgRes ? '<li><b>Где.</b> Для карьеры — ' + cityList(acgRes.career) + '; для любви — ' + cityList(acgRes.love) + '.</li>' : '') +
       '<li><b>Сейчас.</b> ' + (md ? 'Махадаша ' + pname(md.lord) + (ad ? ' / ' + pname(ad.lord) : '') + ': ' + DASHA_TEXT[md.lord] + '. ' : '') + (curLuck ? 'Такт удачи бацзы ' + rateWord(curLuck.score) + '.' : '') + (bestYears.length ? ' Лучшие годы для действий: ' + bestYears.slice(0, 5).join(', ') + '.' : '') + '</li></ul>';
@@ -563,7 +563,7 @@
     var stars = Object.keys(STAR).filter(function (k) { return bz.stars[k]; });
     var luckRows = bz.luck.filter(function (l) { return l.age < 90; }).map(function (l, i) {
       var next = bz.luck[i + 1], cur = l.from <= now && (!next || next.from > now);
-      return '<li class="r' + (l.score > 0.5 ? 'good' : l.score < -0.5 ? 'hard' : 'mid') + (cur ? ' is-now' : '') + '"><span>' + Math.round(l.age) + '–' + Math.round(l.age + 10) + ' лет · ' + year(l.from) + '</span><b>' + STEM_CH[l.stem] + BRANCH_CH[l.branch] + ' ' + EL[S.STEM_EL[l.stem]] + ' ' + BRANCH_RU[l.branch] + '</b><p>' + cap(rateWord(l.score)) + (l.friend ? ' · <em>животное удачи</em>' : l.ally ? ' · <em>союзник</em>' : '') + ' · ' + GOD[l.god][0] + ': ' + GOD[l.god][1] + '</p></li>';
+      return '<li class="r' + (l.score > 0.5 ? 'good' : l.score < -0.5 ? 'hard' : 'mid') + (cur ? ' is-now' : '') + '"><span>' + Math.round(l.age) + '–' + Math.round(l.age + 10) + ' лет · ' + year(l.from) + '</span><b>' + STEM_CH[l.stem] + BRANCH_CH[l.branch] + ' ' + EL[S.STEM_EL[l.stem]] + ' ' + BRANCH_RU[l.branch] + '</b><p>' + cap(rateWord(l.score)) + (l.friend ? ' · <em>животное удачи</em>' : l.ally ? ' · <em>союзник</em>' : '') + (l.wealth ? ' · <em>талисман богатства</em>' : '') + ' · ' + GOD[l.god][0] + ': ' + GOD[l.god][1] + '</p></li>';
     }).join('');
     var spouse = f.gender === 'm' ? 'звезда жены — стихия ' + EL[bz.spouseEl] : 'звезда мужа — стихия ' + EL[bz.spouseEl];
     var baziSec = sec(5, 'Китайская астрология бацзы',
@@ -571,6 +571,7 @@
       '<p class="diag-note">' + (bz.solarTime ? 'Расчёт по истинному солнечному времени места рождения: ' + String(bz.solarTime.getUTCHours()).padStart(2, '0') + ':' + String(bz.solarTime.getUTCMinutes()).padStart(2, '0') + '.' : 'Без времени рождения столп часа не строится.') + '</p>' +
       '<div class="diag-two" style="margin-top:24px"><div><p class="diag-small">Хозяин дня</p><p class="diag-big">' + dmName + '</p><p>' + DM_TEXT[dm] + '. Хозяин дня ' + (bz.strong ? 'сильный: вам нужно направлять энергию вовне — в результат, деньги и ответственность.' : 'мягкий: вам важны поддержка, учёба и опора на союзников.') + '</p>' +
       '<p><b>Животное удачи (тайный друг):</b> ' + BRANCH_RU[bz.friend] + '. Ваше животное дня — ' + BRANCH_RU[bz.dayBranch] + ', а его тайный и любовный друг — ' + BRANCH_RU[bz.friend] + '. Люди, годы и такты удачи ' + BRANCH_GEN[bz.friend] + ' приносят удачу, а трудные периоды с ним смягчаются.</p>' +
+      '<p><b>Талисман богатства:</b> ' + BRANCH_RU[bz.wealthAnimal] + '. Для животного дня ' + BRANCH_GEN[bz.dayBranch] + ' деньги притягивает ' + BRANCH_RU[bz.wealthAnimal] + ': держите его изображение рядом, а годы и периоды ' + BRANCH_GEN[bz.wealthAnimal] + ' используйте для денежных решений.</p>' +
       '<p><b>Союзники (три гармонии):</b> гармония ' + EL_GEN[bz.triadEl] + ' — ' + BRANCH_RU[bz.dayBranch] + ', ' + bz.allies.map(function (b) { return BRANCH_RU[b]; }).join(', ') + '. Рядом с людьми этих знаков и в их годы вам легче действовать.</p>' +
       '<p><b>Сфера наибольшего дохода.</b> Вы — ' + EL[bz.dmEl] + ', а ' + EL[bz.dmEl] + ' управляет стихией ' + EL[bz.wealthEl] + ': это и есть ваша стихия денег. Доход приносят занятия стихии ' + EL_GEN[bz.wealthEl] + ':</p><ul class="diag-list">' + ACTIVITIES[bz.wealthEl].map(function (a) { return '<li>' + a + '</li>'; }).join('') + '</ul>' +
       '<p><b>Любовь:</b> дворец супруга — ' + BRANCH_RU[bz.dayBranch] + ' (' + EL[S.STEM_EL[S.BRANCH_MAIN[bz.dayBranch]]] + '), ' + spouse + '. Для любви особенно благоприятен ' + BRANCH_RU[bz.friend] + ' — ваш любовный друг.</p>' +
@@ -578,7 +579,7 @@
       '<div><p class="diag-small">Таланты по десяти божествам</p><ul class="astro-points">' + godsTop.map(function (g) { return '<li><b>' + GOD[g][0] + '.</b> ' + cap(GOD[g][1]) + '.</li>'; }).join('') + '</ul>' +
       '<p class="diag-small">Символические звёзды</p><ul class="astro-points">' + (stars.length ? stars.map(function (k) { return '<li><b>' + STAR[k][0] + '.</b> ' + cap(STAR[k][1]) + '.</li>'; }).join('') : '<li>Ярко выраженных символических звёзд нет — судьба строится трудом и выбором.</li>') + '</ul></div></div>' +
       '<p class="diag-small" style="margin-top:28px">Такты удачи (по 10 лет)</p><ul class="astro-timeline astro-luck">' + luckRows + '</ul>' +
-      '<p class="diag-small" style="margin-top:20px">Ближайшие годы</p><div class="astro-years">' + bz.years.map(function (y) { return '<span class="r' + (y.score > 0.5 ? 'good' : y.score < -0.5 ? 'hard' : 'mid') + '"><b>' + y.year + '</b>' + EL[S.STEM_EL[y.stem]] + ' ' + BRANCH_RU[y.branch] + (y.friend ? '<i>животное удачи</i>' : y.ally ? '<i>союзник</i>' : '') + '</span>'; }).join('') + '</div>');
+      '<p class="diag-small" style="margin-top:20px">Ближайшие годы</p><div class="astro-years">' + bz.years.map(function (y) { return '<span class="r' + (y.score > 0.5 ? 'good' : y.score < -0.5 ? 'hard' : 'mid') + '"><b>' + y.year + '</b>' + EL[S.STEM_EL[y.stem]] + ' ' + BRANCH_RU[y.branch] + (y.friend ? '<i>животное удачи</i>' : y.ally ? '<i>союзник</i>' : '') + (y.wealth ? '<i>год богатства</i>' : '') + '</span>'; }).join('') + '</div>');
 
     // --- Астрокартография
     var acgSec;
@@ -635,7 +636,7 @@
       acgRes && acgRes.love.length ? 'Лучший город для любви: <span class="astro-mask">' + mask(cityName(acgRes.love[0].city)) + '</span>, для карьеры: <span class="astro-mask">' + mask(acgRes.career.length ? cityName(acgRes.career[0].city) : 'город') + '</span>' : 'Лучшее направление для жизни и дела по вашей карте',
       bestYears.length ? 'Лучшие годы для действий: <span class="astro-mask">' + bestYears.slice(0, 3).map(function () { return '20••'; }).join(', ') + '</span>' : 'Какие годы впереди лучше для решительных шагов',
       'Кармическая задача по лунным узлам: развивать <span class="astro-mask">' + mask(SIGN_QUALITY[P.NorthNode.sign]) + '</span>',
-      'Ваше животное удачи — <b>' + BRANCH_RU[bz.friend] + '</b>. В какие годы и периоды оно приносит удачу — в полном разборе.',
+      'Ваше животное удачи — <b>' + BRANCH_RU[bz.friend] + '</b>, талисман богатства — <b>' + BRANCH_RU[bz.wealthAnimal] + '</b>. В какие годы и периоды они приносят удачу и деньги — в полном разборе.',
       md ? 'Сейчас идёт ваш большой период (махадаша) — <b>' + pname(md.lord) + '</b>, до ' + year(md.end) + ' года. Что он несёт и как его использовать' : 'Ваш текущий большой период и что он несёт',
       'Периоды жизни по десятилетиям: какие из них благоприятные, а где нужна осторожность'
     ];
