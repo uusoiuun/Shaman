@@ -3,7 +3,8 @@
 Сайт потомственного якутского шамана Уус Ойуун Дьурантай: биография, личный приём,
 очищение, групповые обряды, наставничество, ретриты, магазин, контакты.
 
-Статический сайт без сборки: `index.html`, `style.css`, `script.js`.
+Статический сайт без сборки: `index.html`, `style.css`, `script.js`, картинки в папке `img/`
+(фото в холодном тоне, подпись `signature.png`, старые карты Якутии).
 Вкладки переключаются по адресу (`#priem`, `#ochishchenie`, `#gruppovye`,
 `#nastavnichestvo`, `#retrity`, `#magazin`, `#kontakty`), кнопки записи открывают
 WhatsApp с готовым текстом.
@@ -11,7 +12,7 @@ WhatsApp с готовым текстом.
 ## Как добавить ретрит или товар
 В `index.html` скопируйте блок `<article class="event">` (ретриты) или
 `<article class="product">` (магазин) и замените текст. Для фото товара положите
-картинку рядом и вставьте `<img src="photo.jpg" alt="...">` в `<div class="product-img">`.
+картинку в папку `img/` и вставьте `<img src="img/photo.jpg" alt="...">` в `<div class="product-img">`.
 
 ## Публикация на домене sakhashaman
 1. GitHub → Settings → Pages → Source: ветка `main`, папка `/ (root)`.
