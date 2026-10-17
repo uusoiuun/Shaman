@@ -48,7 +48,7 @@
           <p class="hero-lead">Потомственный якутский шаман</p>
           <div class="hero-actions">
             <a class="btn btn-primary js-wa" data-msg="Здравствуйте! Хочу записаться на консультацию." href="#kontakty">Записаться</a>
-            <a class="btn btn-ghost" href="#priem" data-tab="priem">Услуги</a>
+            <button class="btn btn-ghost js-quiz-open" type="button">Пройти тест</button>
           </div>
         </div>
       </div>
@@ -91,6 +91,16 @@
       </div>
 
       <div class="container">
+        <div class="quiz-teaser">
+          <div>
+            <h2>Нужно ли вам на приём?</h2>
+            <p>Ответьте на 5 коротких вопросов, и вы сразу узнаете, стоит ли вам сейчас записаться к шаману.</p>
+          </div>
+          <button class="btn btn-primary js-quiz-open" type="button">Пройти тест</button>
+        </div>
+      </div>
+
+      <div class="container">
         <h2 class="section-title">Направления</h2>
         <div class="cards">
           <a class="card" href="#priem" data-tab="priem"><span class="card-num">01</span><h3>Личный приём</h3><p>Индивидуальные консультации</p></a>
@@ -127,6 +137,8 @@
             <h3>Записаться на приём</h3>
             <p>Напишите в WhatsApp — согласуем удобный день и время.</p>
             <a class="btn btn-primary js-wa" data-msg="Здравствуйте! Хочу записаться на личную консультацию." href="#kontakty">Написать в WhatsApp</a>
+            <p class="cta-note">Не уверены, нужно ли вам на приём?</p>
+            <button class="btn btn-ghost js-quiz-open" type="button">Пройти тест</button>
           </div>
         </div>
       </div>
@@ -301,6 +313,16 @@
       </div>
     </section>
   </main>
+
+  <!-- Тест «Нужно ли вам на приём?». Вопросы и ответы задаются в script.js (QUIZ). -->
+  <div class="quiz" id="quiz" role="dialog" aria-modal="true" aria-label="Тест: нужно ли вам на приём" hidden>
+    <div class="quiz-backdrop" data-quiz-close></div>
+    <div class="quiz-window">
+      <button class="quiz-close" type="button" data-quiz-close aria-label="Закрыть">&times;</button>
+      <div class="quiz-progress" aria-hidden="true"></div>
+      <div class="quiz-stage" aria-live="polite"></div>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="container footer-inner">
