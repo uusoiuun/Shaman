@@ -178,9 +178,14 @@
   var TOTAL = FLAT.length;
 
   // ---------- Состояние ----------
-  var state = { form: null, answers: [], step: 0 };
+  var state = { form: null, answers: [], step: 0, v: 2 };
   function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
-  function load() { try { var s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.answers) state = s; } catch (e) {} }
+  function load() {
+    try { var s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.answers) state = s; } catch (e) {}
+    // Кто прошёл тест до появления блока «Род и дар», сразу видит свой разбор, без новых вопросов
+    if (!state.v && state.step >= TOTAL - Q_LINE.length) state.step = TOTAL;
+    state.v = 2;
+  }
   // Код открывает только тот разбор, для которого его ввели (дата, время, место, пол)
   function reportKey() { var f = state.form; return [f.date, f.time, f.city, f.gender].join('|'); }
   function readList(k) { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch (e) { return []; } }
@@ -689,7 +694,7 @@
       '<button class="btn btn-ghost" type="button" data-act="pdf">Скачать PDF</button>' +
       '<button class="btn btn-ghost" type="button" data-act="restart">Новый разбор</button></div>',
       function (card) {
-        card.querySelector('[data-act="restart"]').addEventListener('click', function () { state = { form: state.form, answers: [], step: 0 }; save(); renderForm(); });
+        card.querySelector('[data-act="restart"]').addEventListener('click', function () { state = { form: state.form, answers: [], step: 0, v: 2 }; save(); renderForm(); });
         card.querySelector('[data-act="share"]').addEventListener('click', function (e) {
           if (window.SakhaPDF) window.SakhaPDF.share(card, open ? 'Астрологический разбор' : 'Астрологический разбор — первый взгляд', f.name, e.currentTarget, WHATSAPP,
             'Здравствуйте! Я получил(а) астрологический разбор на сайте и хочу записаться на личный приём-консультацию.\nИмя: ' + (f.name || '—') + '\nДата: ' + f.date.split('-').reverse().join('.') + (f.noTime ? ' (время неизвестно)' : ', ' + f.time) + '\nМесто: ' + cityName(c));
