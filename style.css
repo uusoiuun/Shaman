@@ -434,6 +434,20 @@ body.no-scroll { overflow: hidden; }
 .astro-code input { flex: 1; min-width: 0; font: inherit; font-size: 1.05rem; color: var(--frost); background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 10px 0; letter-spacing: .08em; text-transform: uppercase; }
 .astro-code input:focus { outline: none; border-bottom-color: var(--moss); }
 .astro-test { display: inline-block; background: var(--moss); color: var(--ink); font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; padding: 8px 14px; margin-bottom: 20px; }
+.astro-hooks { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.astro-hooks li { padding-left: 26px; position: relative; }
+.astro-hooks li::before { content: '/'; position: absolute; left: 0; top: 0; color: var(--moss); font-size: .9rem; }
+.astro-hooks b { color: var(--frost); }
+.astro-mask { color: var(--moss); letter-spacing: .08em; }
+.astro-key { border-left: 2px solid var(--moss); padding: 4px 0 4px 18px; margin: 8px 0 24px; }
+.astro-quote { font-size: 1.15rem; color: var(--frost); font-style: italic; }
+.astro-textarea { width: 100%; font: inherit; font-size: 1.05rem; color: var(--frost); background: transparent; border: 1px solid var(--line); padding: 14px; border-radius: 0; resize: vertical; }
+.astro-textarea:focus { outline: none; border-color: var(--moss); }
+.astro-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.astro-final { font-size: clamp(1.2rem, 2.4vw, 1.6rem); line-height: 1.35; color: var(--frost); max-width: 900px; }
+.astro-final em { font-style: normal; color: var(--moss); }
+.astro-vedic { max-width: 760px; }
+.astro-summary + p { margin-top: 24px; max-width: 900px; }
 .astro-disclaimer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--dim); font-size: .85rem; font-style: italic; max-width: 760px; }
 @media (max-width: 900px) {
   .astro-acg { grid-template-columns: 1fr; }
