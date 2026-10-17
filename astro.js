@@ -5,7 +5,9 @@
   var root = document.getElementById('astro');
   if (!root || !window.SakhaAstro || !window.Astronomy) return;
   var S = window.SakhaAstro, CITIES = window.SAKHA_CITIES || [], DIAG = window.SAKHA_DIAG || {};
-  var WHATSAPP = '79148286969', STORE = 'sakha-astro-v1', UNLOCK = 'sakha-astro-unlocked';
+  var WHATSAPP = '79148286969', STORE = 'sakha-astro-v1', UNLOCK = 'sakha-astro-open', FREE_USED = 'sakha-astro-free';
+  // Тестовый режим: столько разборов в браузере открываются без кода. Перед публикацией поставить 0.
+  var FREE_TESTS = 5;
   // SHA-256 (первые 24 знака) кодов доступа, которые шаман выдаёт после оплаты
   var CODE_HASHES = ["0024bf28baa13f99303e6228", "4e834516701d5812a7225ef8", "3b0615c12114a278d70e4729", "318591a9d7f92f667e91ce9a", "90d952769d97b760621a9bba", "ca34d59826d91e61f8c4c4a4", "569f9c28f534735801a65478", "97bbb108d2a9377d45a5726e", "c6885343f326f63d561e25a7", "5e60ba3991b6c044420c1d55", "dfe4d4919b336c2d02d4cc82", "78e7675e42c5c5dcde499e96", "3ae4c33f30d8aa1e5af137b8", "61d2d357d80803d56eab5777", "531621d465bc5e0037a8b0eb", "ef92db400f084c3108076841", "48aaab3b303282a39430f826", "8374770e5248a6662c3357af", "1af9ba14c72453fbfa35a4e6", "45cf1b9b9c43e6801724ddb0", "fba9e96f15d211eceee71ef3", "d8cfbebd1f18b33b42adf247", "6500d0cfc3dde8162b9ceb71", "91a3b658f1da5d9fc8c900ed", "3265b4cd0d34c26fa387c222", "8f91f73872db519897e43a15", "0fe977b79d17da54001638c4", "a345555b72c81b0fbbceb4e7", "108d31b9ec2e4a49b0bb6412", "6379623d3f98da9e350adf79"];
   var stage = root.querySelector('.astro-stage');
@@ -142,7 +144,19 @@
   var state = { form: null, answers: [], step: 0 };
   function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
   function load() { try { var s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.answers) state = s; } catch (e) {} }
-  function unlocked() { try { return localStorage.getItem(UNLOCK) === '1'; } catch (e) { return false; } }
+  // Код открывает только тот разбор, для которого его ввели (дата, время, место, пол)
+  function reportKey() { var f = state.form; return [f.date, f.time, f.city, f.gender].join('|'); }
+  function readList(k) { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch (e) { return []; } }
+  function writeList(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function unlocked() { return readList(UNLOCK).indexOf(reportKey()) >= 0; }
+  function openReport() { var l = readList(UNLOCK); if (l.indexOf(reportKey()) < 0) { l.push(reportKey()); writeList(UNLOCK, l); } }
+  // Возвращает номер тестового разбора, если он открыт бесплатно, иначе 0
+  function freeTest() {
+    var used = readList(FREE_USED), key = reportKey(), i = used.indexOf(key);
+    if (i >= 0) return i + 1;
+    if (used.length >= FREE_TESTS) return 0;
+    used.push(key); writeList(FREE_USED, used); return used.length;
+  }
 
   // ---------- Помощники ----------
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -389,7 +403,8 @@
     var f = state.form, c = CITIES[f.city], dp = f.date.split('-').map(Number), tp = (f.time || '12:00').split(':').map(Number);
     var acgCities = CITIES.filter(function (x) { return x[6]; });
     var chart = S.chart({ y: dp[0], m: dp[1], d: dp[2], h: tp[0], mi: tp[1], hasTime: !f.noTime, lat: c[3], lon: c[4], tz: c[5], gender: f.gender, cities: acgCities });
-    var p = psych(), jobs = professions(p, chart), bz = chart.bazi, ved = chart.vedic, open = unlocked();
+    var p = psych(), jobs = professions(p, chart), bz = chart.bazi, ved = chart.vedic, open = unlocked(), test = open ? 0 : freeTest();
+    if (test) open = true;
     var P = {}; chart.planets.forEach(function (x) { P[x.key] = x; });
     var birth = chart.utc.ms, now = Date.now();
     var A1 = DIAG.ARCH[p.arch[0]], A2 = DIAG.ARCH[p.arch[1]];
@@ -562,6 +577,7 @@
 
     scrollTop();
     swap(
+      (test ? '<p class="astro-test">Тестовый доступ: разбор ' + test + ' из ' + FREE_TESTS + ' открыт без кода</p>' : '') +
       '<p class="diag-kicker">Астрологический разбор · авторский метод</p>' +
       '<h3 class="diag-formula">' + hello + ' разбор: <em>' + A1.name + '</em>, ' + sunS + ', Хозяин дня ' + STEM_RU[dm] + '</h3>' +
       '<p class="diag-note">' + dp[2] + '.' + String(dp[1]).padStart(2, '0') + '.' + dp[0] + (f.noTime ? ', время неизвестно' : ', ' + f.time) + ' · ' + esc(cityName(c)) + ' (' + c[3].toFixed(2) + '°, ' + c[4].toFixed(2) + '°) · UTC' + (tzH >= 0 ? '+' : '') + tzH + '</p>' +
@@ -577,7 +593,7 @@
           e.preventDefault();
           var v = card.querySelector('#as-code').value.trim().toUpperCase(), err = codeForm.querySelector('.diag-error');
           sha(v).then(function (h) {
-            if (CODE_HASHES.indexOf(h.slice(0, 24)) >= 0) { try { localStorage.setItem(UNLOCK, '1'); } catch (x) {} renderReport(); }
+            if (CODE_HASHES.indexOf(h.slice(0, 24)) >= 0) { openReport(); renderReport(); }
             else err.hidden = false;
           });
         });

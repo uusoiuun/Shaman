@@ -433,6 +433,7 @@ body.no-scroll { overflow: hidden; }
 .astro-code div { display: flex; gap: 12px; }
 .astro-code input { flex: 1; min-width: 0; font: inherit; font-size: 1.05rem; color: var(--frost); background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 10px 0; letter-spacing: .08em; text-transform: uppercase; }
 .astro-code input:focus { outline: none; border-bottom-color: var(--moss); }
+.astro-test { display: inline-block; background: var(--moss); color: var(--ink); font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; padding: 8px 14px; margin-bottom: 20px; }
 .astro-disclaimer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--dim); font-size: .85rem; font-style: italic; max-width: 760px; }
 @media (max-width: 900px) {
   .astro-acg { grid-template-columns: 1fr; }
