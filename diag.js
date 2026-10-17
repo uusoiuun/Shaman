@@ -453,9 +453,13 @@
 
       '<div class="diag-cta"><p>Это общая картина. На личном разборе шаман соединит её с вашим родом и подскажет следующий шаг.</p>' +
       '<div class="diag-actions"><a class="btn btn-lime" target="_blank" rel="noopener" href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waMsg) + '">Записаться на разбор</a>' +
+      '<button class="btn btn-ghost" type="button" data-act="pdf">Скачать PDF</button>' +
       '<button class="btn btn-ghost" type="button" data-act="restart">Пройти заново</button></div>' +
       '<p class="diag-small">Результат — повод задуматься и лучше узнать себя, а не окончательный приговор.</p></div>',
       function (card) {
+        card.querySelector('[data-act="pdf"]').addEventListener('click', function (e) {
+          if (window.SakhaPDF) window.SakhaPDF.download(card, 'Диагностика предназначения', state.name, e.currentTarget);
+        });
         card.querySelector('[data-act="restart"]').addEventListener('click', function () {
           var name = state.name, dob = state.dob; reset(); state.name = name; state.dob = dob; renderIntro();
         });
