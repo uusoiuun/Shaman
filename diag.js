@@ -219,6 +219,8 @@
       ]
     }
   ];
+  // Архетипы и их вопросы используются и в платном астрологическом разборе
+  window.SAKHA_DIAG = { ARCH: ARCH, ARCH_QS: BLOCKS[1].qs };
   var TOTAL = BLOCKS.reduce(function (n, b) { return n + b.qs.length; }, 0);
   var FLAT = [];
   BLOCKS.forEach(function (b, bi) { b.qs.forEach(function (q, qi) { FLAT.push({ b: bi, q: q, n: qi }); }); });

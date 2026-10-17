@@ -30,6 +30,7 @@
         <a href="#retrity" data-tab="retrity">Ретриты</a>
         <a href="#magazin" data-tab="magazin">Магазин</a>
         <a href="#diagnostika" data-tab="diagnostika">Диагностика</a>
+        <a href="#astrorazbor" data-tab="astrorazbor">Астроразбор</a>
         <a href="#kontakty" data-tab="kontakty">Контакты</a>
       </nav>
     </div>
@@ -100,7 +101,8 @@
           <li><a href="#nastavnichestvo" data-tab="nastavnichestvo"><sup>/4</sup><span class="service-name">Наставничество</span><span class="service-desc">Работа с практикующими шаманами</span></a></li>
           <li><a href="#retrity" data-tab="retrity"><sup>/5</sup><span class="service-name">Ретриты</span><span class="service-desc">Все предстоящие ретриты</span></a></li>
           <li><a href="#magazin" data-tab="magazin"><sup>/6</sup><span class="service-name">Магазин</span><span class="service-desc">Одежда и шаманская атрибутика</span></a></li>
-          <li><a href="#diagnostika" data-tab="diagnostika"><sup>/7</sup><span class="service-name">Диагностика предназначения</span><span class="service-desc">Тест из 100 вопросов: архетипы, бацзы, нумерология</span></a></li>
+          <li><a href="#diagnostika" data-tab="diagnostika"><sup>/7</sup><span class="service-name">Диагностика предназначения</span><span class="service-desc">Бесплатный тест из 100 вопросов: архетипы, бацзы, нумерология</span></a></li>
+          <li><a href="#astrorazbor" data-tab="astrorazbor"><sup>/8</sup><span class="service-name">Астрологический разбор</span><span class="service-desc">Платный расширенный разбор натальной карты по авторскому методу</span></a></li>
         </ol>
       </div>
 
@@ -317,6 +319,31 @@
       </div>
     </section>
 
+    <!-- 8. АСТРОЛОГИЧЕСКИЙ РАЗБОР (платный; расчёты в astro-calc.js, отчёт в astro.js) -->
+    <section id="astrorazbor" class="tab-panel" data-panel="astrorazbor" hidden>
+      <div class="container page">
+        <p class="eyebrow">/8</p>
+        <h1>Астрологический разбор</h1>
+        <p class="page-lead">Авторский метод · платный расширенный разбор натальной карты</p>
+        <div class="astro-intro">
+          <p>Полный портрет человека по всем фронтам: психологические тесты и профориентация, западная и ведическая астрология, китайская астрология бацзы и астрокартография. Все методы сведены в один ответ без противоречий: кто вы, в каком деле раскроетесь, где и когда действовать.</p>
+          <ul class="astro-includes">
+            <li><sup>/1</sup>Психологический портрет: тест «Большая пятёрка» и архетипы Юнга</li>
+            <li><sup>/2</sup>Профориентация по Холланду и подходящие профессии</li>
+            <li><sup>/3</sup>Западный гороскоп: планеты, дома, аспекты, узлы, Лилит</li>
+            <li><sup>/4</sup>Ведическая астрология: лагна, накшатры, Раху и Кету, даши</li>
+            <li><sup>/5</sup>Бацзы: четыре столпа, полезные стихии, звёзды, такты удачи</li>
+            <li><sup>/6</sup>Астрокартография: города для карьеры, денег, любви и жизни</li>
+            <li><sup>/7</sup>Периоды жизни по десятилетиям и рекомендации</li>
+          </ul>
+          <p>Понадобятся дата, время и место рождения. Если время неизвестно, разбор всё равно будет, но без домов, асцендента и линий городов.</p>
+        </div>
+        <div id="astro" class="diag astro" aria-live="polite">
+          <div class="astro-stage"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- КОНТАКТЫ -->
     <section id="kontakty" class="tab-panel" data-panel="kontakty" hidden>
       <div class="container page">
@@ -364,5 +391,9 @@
 
   <script src="script.js"></script>
   <script src="diag.js"></script>
+  <script src="vendor/astronomy-2.1.19.min.js"></script>
+  <script src="cities.js"></script>
+  <script src="astro-calc.js"></script>
+  <script src="astro.js"></script>
 </body>
 </html>
