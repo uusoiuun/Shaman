@@ -636,7 +636,7 @@
       acgRes && acgRes.love.length ? 'Лучший город для любви: <span class="astro-mask">' + mask(cityName(acgRes.love[0].city)) + '</span>, для карьеры: <span class="astro-mask">' + mask(acgRes.career.length ? cityName(acgRes.career[0].city) : 'город') + '</span>' : 'Лучшее направление для жизни и дела по вашей карте',
       bestYears.length ? 'Лучшие годы для действий: <span class="astro-mask">' + bestYears.slice(0, 3).map(function () { return '20••'; }).join(', ') + '</span>' : 'Какие годы впереди лучше для решительных шагов',
       'Кармическая задача по лунным узлам: развивать <span class="astro-mask">' + mask(SIGN_QUALITY[P.NorthNode.sign]) + '</span>',
-      'Ваше животное удачи — <b>' + BRANCH_RU[bz.friend] + '</b>, талисман богатства — <b>' + BRANCH_RU[bz.wealthAnimal] + '</b>. В какие годы и периоды они приносят удачу и деньги — в полном разборе.',
+      'Ваше животное удачи — <span class="astro-mask">••••••</span>, талисман богатства — <span class="astro-mask">••••••</span>. Кто они и в какие годы приносят удачу и деньги — в полном разборе.',
       md ? 'Сейчас идёт ваш большой период (махадаша) — <b>' + pname(md.lord) + '</b>, до ' + year(md.end) + ' года. Что он несёт и как его использовать' : 'Ваш текущий большой период и что он несёт',
       'Периоды жизни по десятилетиям: какие из них благоприятные, а где нужна осторожность'
     ];
