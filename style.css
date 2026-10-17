@@ -68,26 +68,29 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--moss); outline-
 .btn-small { padding: 12px 18px; font-size: .7rem; background: transparent; color: var(--frost); }
 .btn-small:hover { background: var(--frost); color: var(--ink); }
 
-/* Первый экран: слева заголовок, справа фото с подписью поверх */
+/* Первый экран: слово ОЙУУН с фотографией бубна внутри букв, подпись поверх */
 .hero {
-  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr);
-  gap: 40px; padding-top: 40px; padding-bottom: 72px; align-items: center;
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 32px; padding-top: 48px; padding-bottom: 72px; align-items: start;
 }
-.hero-title { margin: 0 0 .5em; }
-.hero-big {
-  display: block; font-family: var(--narrow); font-weight: 700; color: var(--frost);
-  font-size: clamp(5rem, 14vw, 13rem); line-height: 1; letter-spacing: -.01em;
-  transform: scaleY(1.3); transform-origin: bottom left; margin: .32em 0 .1em;
-}
-.hero-sub { display: block; font-size: clamp(1.6rem, 3.2vw, 3rem); line-height: .95; letter-spacing: -.03em; color: var(--frost); }
+.hero-title { font-size: clamp(2.3rem, 4.6vw, 4.7rem); line-height: .88; letter-spacing: -.035em; margin-bottom: .35em; }
 .hero-name { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .22em; color: var(--moss); margin-bottom: 32px; }
-.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
-.hero-note { max-width: 340px; font-size: .85rem; font-style: italic; color: var(--dim); margin: 0; }
-.hero-photo { position: relative; margin: 0; }
-.hero-photo > img:first-child { display: block; width: 100%; height: min(80vh, 760px); object-fit: cover; object-position: center 55%; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+.hero-note { max-width: 320px; margin-left: auto; text-align: right; font-size: .82rem; font-style: italic; color: var(--dim); }
+.hero-word { position: relative; text-align: right; }
+.photo-word {
+  display: block; font-family: var(--narrow); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(5rem, 15.5vw, 15rem); line-height: .82; letter-spacing: -.01em;
+  color: var(--frost);
+  background: url("img/drum.jpg") center 62% / cover;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  /* верхний отступ, чтобы дужка над Й не обрезалась */
+  padding-top: .26em; padding-bottom: .5em;
+  transform: scaleY(1.45); transform-origin: top right;
+}
 .hero-signature {
-  position: absolute; left: -22%; bottom: 6%; width: 92%;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .95));
+  position: absolute; right: -2%; bottom: -6%; width: 78%;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .9));
 }
 .hero-coords {
   position: absolute; left: 32px; bottom: 8px; margin: 0;
@@ -296,8 +299,10 @@ body.no-scroll { overflow: hidden; }
 }
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; padding-bottom: 96px; }
-  .hero-photo > img:first-child { height: 70vh; }
-  .hero-signature { left: auto; right: 0; width: 86%; }
+  .hero-word { order: -1; text-align: left; padding-top: 8px; }
+  .photo-word { transform-origin: top left; font-size: 31vw; margin-bottom: 23vw; }
+  .hero-signature { right: 0; bottom: -4%; width: 70%; }
+  .hero-note { margin-left: 0; text-align: left; }
   .hero-coords { position: static; margin-top: 8px; }
   .bio { display: flex; flex-direction: column; gap: 0; }
   .bio-line { display: none; }
