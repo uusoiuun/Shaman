@@ -667,9 +667,13 @@
       (open ? psychSec + proSec + westSec + vedSec + baziSec + acgSec + periodSec + recSec + finalSec : teaser + gate) +
       disclaimer +
       '<div class="diag-actions"><a class="btn btn-ghost" target="_blank" rel="noopener" href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Здравствуйте! Я получил(а) астрологический разбор на сайте и хочу обсудить его лично.') + '">Обсудить с шаманом</a>' +
+      '<button class="btn btn-lime" type="button" data-act="pdf">Скачать PDF</button>' +
       '<button class="btn btn-ghost" type="button" data-act="restart">Новый разбор</button></div>',
       function (card) {
         card.querySelector('[data-act="restart"]').addEventListener('click', function () { state = { form: state.form, answers: [], step: 0 }; save(); renderForm(); });
+        card.querySelector('[data-act="pdf"]').addEventListener('click', function (e) {
+          if (window.SakhaPDF) window.SakhaPDF.download(card, open ? 'Астрологический разбор' : 'Астрологический разбор — первый взгляд', f.name, e.currentTarget);
+        });
         var codeForm = card.querySelector('.astro-code');
         if (codeForm) codeForm.addEventListener('submit', function (e) {
           e.preventDefault();
