@@ -154,21 +154,38 @@
     kid('S', 'помогать взрослым и чувствовать себя нужным'), kid('E', 'соревноваться и побеждать'), kid('C', 'делать всё аккуратно и по правилам')
   ];
   var CHILD_SCALE = [['Да, очень', 2], ['Иногда', 1], ['Нет / не помню', 0]];
+  // Родовая линия: 3 ответа «Да» и больше — признаки дара в роду
+  var Q_LINE = [
+    'Были ли в роду шаманы, удаганки, знахари, костоправы, травники?',
+    'Снятся ли вам вещие сны, видите ли вы умерших родственников во сне?',
+    'Бывали ли необъяснимые болезни или тяжёлые периоды, которые прошли после обряда или когда вы обратились к духовному?',
+    'Тянет ли вас к бубну, к обрядам, к природе, к старинным вещам?',
+    'Говорили ли старшие, что вы «с даром»?',
+    'Часто ли сбываются ваши желания?'
+  ].map(function (t) { return { set: 'line', text: t }; });
+  var LINE_SCALE = [['Да', 2], ['Не знаю', 1], ['Нет', 0]], LINE_MIN = 3;
+  var LINE_JOBS = ['Мастер шаманской атрибутики', 'Проводник обрядов и родовых практик', 'Травник, знахарь, костоправ'];
   var Q_ARCH = (DIAG.ARCH_QS || []).map(function (q) { return { set: 'arch', text: q.text, opts: q.opts }; });
   var BLOCKS = [
     { title: 'Психологический портрет', lead: 'Тест «Большая пятёрка». Насколько это про вас?', qs: Q_BIG5, scale: LIKERT },
     { title: 'Детство — ключ', lead: 'Вспомните себя до 12 лет: чем вы жили, когда никто не заставлял', qs: Q_CHILD, scale: CHILD_SCALE },
     { title: 'Профориентация', lead: 'Как вам такое занятие? Не думайте о зарплате и образовании', qs: Q_RIASEC, scale: INTEREST },
-    { title: 'Архетипы Юнга', lead: 'Выберите вариант, который ближе', qs: Q_ARCH }
+    { title: 'Архетипы Юнга', lead: 'Выберите вариант, который ближе', qs: Q_ARCH },
+    { title: 'Род и дар', lead: 'Несколько вопросов о вашем роде и особых способностях', qs: Q_LINE, scale: LINE_SCALE }
   ];
   var FLAT = [];
   BLOCKS.forEach(function (b, bi) { b.qs.forEach(function (q) { FLAT.push({ b: bi, q: q }); }); });
   var TOTAL = FLAT.length;
 
   // ---------- Состояние ----------
-  var state = { form: null, answers: [], step: 0 };
+  var state = { form: null, answers: [], step: 0, v: 2 };
   function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
-  function load() { try { var s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.answers) state = s; } catch (e) {} }
+  function load() {
+    try { var s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.answers) state = s; } catch (e) {}
+    // Кто прошёл тест до появления блока «Род и дар», сразу видит свой разбор, без новых вопросов
+    if (!state.v && state.step >= TOTAL - Q_LINE.length) state.step = TOTAL;
+    state.v = 2;
+  }
   // Код открывает только тот разбор, для которого его ввели (дата, время, место, пол)
   function reportKey() { var f = state.form; return [f.date, f.time, f.city, f.gender].join('|'); }
   function readList(k) { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch (e) { return []; } }
@@ -323,11 +340,12 @@
 
   // ---------- Шаг 3: расчёт ----------
   function psych() {
-    var big = { E: 0, A: 0, C: 0, N: 0, O: 0 }, rs = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, child = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, childText = '', arch = (DIAG.ARCH || []).map(function () { return 0; });
+    var big = { E: 0, A: 0, C: 0, N: 0, O: 0 }, rs = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, child = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, childText = '', line = 0, arch = (DIAG.ARCH || []).map(function () { return 0; });
     FLAT.forEach(function (it, i) {
       var a = state.answers[i]; if (a === undefined || a === null) return;
       var q = it.q;
       if (q.set === 'childText') { childText = String(a); return; }
+      if (q.set === 'line') { if (a === 2) line++; return; }
       if (q.set === 'child') { child[q.t] += a; rs[q.t] += a * 1.5; return; } // детство весит в полтора раза больше
       if (q.set === 'big5') big[q.f] += q.rev ? 4 - a : a;
       else if (q.set === 'riasec') rs[q.t] += a;
@@ -336,7 +354,7 @@
     var code = Object.keys(rs).sort(function (a, b) { return rs[b] - rs[a]; });
     var archRank = arch.map(function (v, i) { return i; }).sort(function (a, b) { return arch[b] - arch[a]; });
     var childCode = Object.keys(child).sort(function (a, b) { return child[b] - child[a]; });
-    return { big: big, rs: rs, code: code, arch: archRank, child: child, childCode: childCode, childText: childText };
+    return { big: big, rs: rs, code: code, arch: archRank, child: child, childCode: childCode, childText: childText, line: line };
   }
 
   function professions(p, chart) {
@@ -357,6 +375,8 @@
       var add = main.filter(function (j) { return top.indexOf(j) < 0; })[0]; if (!add) break;
       top.splice(top.length - 1, 1); top.splice(1, 0, add);
     }
+    // Признаки родовой линии поднимают профессии рода сразу за главной
+    if (p.line >= LINE_MIN) top = top.slice(0, 1).concat(LINE_JOBS.map(function (n) { return { name: n, type: 'line', score: 0, why: ['признаки родовой линии'] }; }), top.slice(1, 5));
     return top;
   }
 
@@ -501,11 +521,13 @@
       (p.child[childTop] > 0 ? '<p>В детстве ярче всего проявлялся тип <b>' + RIASEC[childTop][0] + '</b>: ' + RIASEC[childTop][1] + '. ' +
         (childMatch ? 'Он совпадает с вашим взрослым кодом — значит, призвание пронесено через всю жизнь и его стоит сделать основой дела.' : 'Во взрослом коде его нет на первых местах — скорее всего, эту радость пришлось отложить. Верните её хотя бы как часть работы или хобби: там спрятана ваша сила.') + '</p>'
         : '<p>Детские увлечения не проявились ярко — опирайтесь на взрослый код профориентации.</p>') + '</div>';
+    var lineText = 'Есть признаки родовой линии: вы ответили «да» на ' + p.line + ' из ' + Q_LINE.length + ' вопросов о роде и даре. Это стоит обсудить с шаманом на личном приёме: он посмотрит, что передаётся в вашем роду и как с этим обращаться.';
+    var lineBlock = p.line >= LINE_MIN ? '<div class="astro-key"><p class="diag-small">Родовая линия</p><p>' + lineText + '</p></div>' : '';
     var riBars = '<ul class="diag-bars">' + p.code.map(function (k) { return '<li><span>' + RIASEC[k][0] + '</span><b><i style="width:' + Math.round(p.rs[k] / maxR * 100) + '%"></i></b></li>'; }).join('') + '</ul>';
     var jobsList = '<ol class="astro-jobs">' + jobs.map(function (j) { return '<li><b>' + j.name + '</b><span>' + j.why.join(' · ') + '</span></li>'; }).join('') + '</ol>';
     var proSec = sec(2, 'Профориентация',
       '<div class="diag-two"><div><p class="diag-big">' + code3.map(function (k) { return RIASEC[k][0]; }).join(' · ') + '</p><p>Главное: ' + RIASEC[code3[0]][1] + '; дополнительно — ' + RIASEC[code3[1]][1] + '.</p>' +
-      childBlock + '<p class="diag-small">Профессии, где сходятся все методы</p>' + jobsList + '</div><div>' + riBars +
+      childBlock + lineBlock + '<p class="diag-small">Профессии, где сходятся все методы</p>' + jobsList + '</div><div>' + riBars +
       '<p class="diag-note" style="margin-top:16px">Список собран так, чтобы не противоречить ни тесту, ни карте: в основе — ваш код профориентации, детские увлечения весят в полтора раза больше, а стихия денег по бацзы, архетип и MC поднимают выше совпадающие профессии.</p></div></div>');
 
     // --- Западная астрология
@@ -620,6 +642,7 @@
       big.N >= 11 ? 'Берегите ресурс: вы тонко чувствуете и быстро устаёте от лишних людей и шума.' : 'Ваша устойчивость — опора для других; не берите на себя слишком много чужого.',
       bestYears.length ? 'Главные шаги планируйте на благоприятные годы: ' + bestYears.slice(0, 4).join(', ') + '.' : 'Ближайшие годы спокойные — время учиться и готовить почву.'
     ];
+    if (p.line >= LINE_MIN) recs.splice(1, 0, 'Обсудите с шаманом на личном приёме признаки родовой линии: дар рода просит внимания и правильного обращения.');
     var recSec = sec(8, 'Рекомендации', '<ol class="diag-list astro-recs">' + recs.map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ol>');
 
     // --- Итог
@@ -641,6 +664,7 @@
       md ? 'Сейчас идёт ваш большой период (махадаша) — <b>' + pname(md.lord) + '</b>, до ' + year(md.end) + ' года. Что он несёт и как его использовать' : 'Ваш текущий большой период и что он несёт',
       'Периоды жизни по десятилетиям: какие из них благоприятные, а где нужна осторожность'
     ];
+    if (p.line >= LINE_MIN) hooks.unshift('<b>' + lineText + '</b>');
     var teaser = sec('0', 'Первый взгляд — бесплатно',
       '<div class="diag-two"><div><p class="diag-small">Архетип</p><p class="diag-big">' + A1.name + '</p><p>' + A1.essence + ' ' + A1.gift + '</p>' +
       '<p class="diag-small">Хозяин дня в бацзы</p><p class="diag-mid">' + dmName + '</p><p>' + DM_TEXT[dm] + '.</p></div>' +
@@ -670,7 +694,7 @@
       '<button class="btn btn-ghost" type="button" data-act="pdf">Скачать PDF</button>' +
       '<button class="btn btn-ghost" type="button" data-act="restart">Новый разбор</button></div>',
       function (card) {
-        card.querySelector('[data-act="restart"]').addEventListener('click', function () { state = { form: state.form, answers: [], step: 0 }; save(); renderForm(); });
+        card.querySelector('[data-act="restart"]').addEventListener('click', function () { state = { form: state.form, answers: [], step: 0, v: 2 }; save(); renderForm(); });
         card.querySelector('[data-act="share"]').addEventListener('click', function (e) {
           if (window.SakhaPDF) window.SakhaPDF.share(card, open ? 'Астрологический разбор' : 'Астрологический разбор — первый взгляд', f.name, e.currentTarget, WHATSAPP,
             'Здравствуйте! Я получил(а) астрологический разбор на сайте и хочу записаться на личный приём-консультацию.\nИмя: ' + (f.name || '—') + '\nДата: ' + f.date.split('-').reverse().join('.') + (f.noTime ? ' (время неизвестно)' : ', ' + f.time) + '\nМесто: ' + cityName(c));
