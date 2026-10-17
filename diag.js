@@ -458,7 +458,7 @@
       '<p class="diag-small">Результат — повод задуматься и лучше узнать себя, а не окончательный приговор.</p></div>',
       function (card) {
         card.querySelector('[data-act="pdf"]').addEventListener('click', function (e) {
-          if (window.SakhaPDF) window.SakhaPDF.download(card, 'Диагностика предназначения', state.name, e.currentTarget);
+          if (window.SakhaPDF) window.SakhaPDF.download(card, 'Диагностика предназначения', state.name, e.currentTarget, 'Дата рождения: ' + state.dob.split('-').reverse().join('.'));
         });
         card.querySelector('[data-act="restart"]').addEventListener('click', function () {
           var name = state.name, dob = state.dob; reset(); state.name = name; state.dob = dob; renderIntro();

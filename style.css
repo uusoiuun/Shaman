@@ -430,6 +430,16 @@ body.no-scroll { overflow: hidden; }
 .astro-gate { border: 1px solid var(--moss); padding: 32px; margin: 8px 0 32px; }
 .astro-gate h4 { font-size: clamp(1.5rem, 3vw, 2.2rem); text-transform: uppercase; letter-spacing: -.02em; color: var(--frost); margin: 0 0 12px; }
 .astro-gate > p:not(.diag-small) { color: var(--dim); max-width: 620px; }
+.pdf-form { margin-top: 24px; display: grid; gap: 10px; max-width: 520px; }
+.pdf-form > label:first-child { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: var(--moss); }
+.pdf-form input[type=tel] { font: inherit; font-size: 1.05rem; color: var(--frost); background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 10px 0; }
+.pdf-form input[type=tel]:focus { outline: none; border-bottom-color: var(--moss); }
+.pdf-agree { display: flex; gap: 10px; align-items: flex-start; font-size: .9rem; line-height: 1.45; cursor: pointer; }
+.pdf-agree input { margin-top: 3px; width: 18px; height: 18px; flex: none; accent-color: var(--moss); }
+.pdf-agree a { color: inherit; text-decoration: underline; }
+.pdf-form .btn { justify-self: start; }
+.footer-legal { font-size: .8rem; opacity: .7; }
+.footer-legal a { color: inherit; }
 .astro-code { margin-top: 28px; display: grid; gap: 8px; max-width: 480px; }
 .astro-code label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: var(--moss); }
 .astro-code div { display: flex; gap: 12px; }
