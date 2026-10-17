@@ -1,2 +1,22 @@
-# Shaman
-About sakha yakutian shamanism, shamans clothes shop, consultation, retreat 
+# sakhashaman
+
+Сайт потомственного якутского шамана Уус Ойуун Дьурантай: биография, личный приём,
+очищение, групповые обряды, наставничество, ретриты, магазин, контакты.
+
+Статический сайт без сборки: `index.html`, `style.css`, `script.js`.
+Вкладки переключаются по адресу (`#priem`, `#ochishchenie`, `#gruppovye`,
+`#nastavnichestvo`, `#retrity`, `#magazin`, `#kontakty`), кнопки записи открывают
+WhatsApp с готовым текстом.
+
+## Как добавить ретрит или товар
+В `index.html` скопируйте блок `<article class="event">` (ретриты) или
+`<article class="product">` (магазин) и замените текст. Для фото товара положите
+картинку рядом и вставьте `<img src="photo.jpg" alt="...">` в `<div class="product-img">`.
+
+## Публикация на домене sakhashaman
+1. GitHub → Settings → Pages → Source: ветка `main`, папка `/ (root)`.
+2. В поле Custom domain укажите домен (например, `sakhashaman.ru`) — GitHub создаст файл `CNAME`.
+3. У регистратора домена добавьте DNS-записи:
+   - `A` для `@`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - `CNAME` для `www`: `uusoiuun.github.io`
+4. Включите «Enforce HTTPS».
