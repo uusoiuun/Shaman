@@ -204,6 +204,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--moss); outline-
 .feature { border-top: 1px solid var(--frost); border-bottom: 1px solid var(--frost); padding: 40px 0; margin-bottom: 48px; }
 .feature h2 { font-family: var(--narrow); font-size: clamp(3rem, 8vw, 6.5rem); transform: scaleY(1.2); transform-origin: bottom left; }
 .feature p { max-width: 620px; color: var(--dim); }
+.feature .list { max-width: 620px; margin: 20px 0 28px; }
+.feature .eyebrow { color: var(--moss); }
 
 .events { display: grid; gap: 0; margin-top: 40px; border-top: 1px solid var(--line); }
 .event { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--line); }
