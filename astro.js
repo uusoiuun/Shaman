@@ -234,8 +234,17 @@
   function reportKey() { var f = state.form; return [f.date, f.time, f.city, f.gender].join('|'); }
   function readList(k) { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch (e) { return []; } }
   function writeList(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-  function unlocked() { return readList(UNLOCK).indexOf(reportKey()) >= 0; }
-  function openReport() { var l = readList(UNLOCK); if (l.indexOf(reportKey()) < 0) { l.push(reportKey()); writeList(UNLOCK, l); } }
+  // Открытые разборы помним и в памяти — на случай, если браузер не даёт сохранять данные
+  var openMem = [];
+  function unlocked() { return openMem.indexOf(reportKey()) >= 0 || readList(UNLOCK).indexOf(reportKey()) >= 0; }
+  function openReport() { openMem.push(reportKey()); var l = readList(UNLOCK); if (l.indexOf(reportKey()) < 0) { l.push(reportKey()); writeList(UNLOCK, l); } }
+  // Код принимаем в любом виде: русские буквы-двойники, строчные, без дефисов или с тире
+  var LOOKALIKE = { 'А': 'A', 'В': 'B', 'Е': 'E', 'К': 'K', 'М': 'M', 'Н': 'H', 'О': 'O', 'Р': 'P', 'С': 'C', 'Т': 'T', 'У': 'Y', 'Х': 'X', 'Ё': 'E' };
+  function normCode(v) {
+    v = String(v || '').toUpperCase().replace(/[А-ЯЁ]/g, function (ch) { return LOOKALIKE[ch] || ch; }).replace(/[^A-Z0-9]/g, '');
+    v = v.replace(/^(UO|YO)/, '');
+    return v.length === 8 ? 'UO-' + v.slice(0, 4) + '-' + v.slice(4) : v;
+  }
   // Возвращает номер тестового разбора, если он открыт бесплатно, иначе 0
   function freeTest() {
     var used = readList(FREE_USED), key = reportKey(), i = used.indexOf(key);
@@ -790,7 +799,7 @@
         var codeForm = card.querySelector('.astro-code');
         if (codeForm) codeForm.addEventListener('submit', function (e) {
           e.preventDefault();
-          var v = card.querySelector('#as-code').value.trim().toUpperCase(), err = codeForm.querySelector('.diag-error');
+          var v = normCode(card.querySelector('#as-code').value), err = codeForm.querySelector('.diag-error');
           sha(v).then(function (h) {
             if (CODE_HASHES.indexOf(h.slice(0, 24)) >= 0) { openReport(); renderReport(); }
             else err.hidden = false;
