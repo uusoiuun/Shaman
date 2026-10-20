@@ -284,6 +284,8 @@
     'build+travel': 'гостевые дома и турбазы',
     'build+tech': 'инженерные системы и умный дом'
   };
+  // Третья сфера добавляет оттенок к общей теме
+  var ANGLE = { health: 'с заботой о здоровье', beauty: 'с акцентом на красоту', edu: 'с обучением других', psy: 'с поддержкой людей', art: 'с творческим подходом', media: 'с продвижением через блог и медиа', craft: 'с изделиями своими руками', nature: 'на природных материалах и травах', travel: 'с выездами и турами', food: 'с угощением и гостеприимством', money: 'с грамотным расчётом и финансами', biz: 'как собственное дело', tech: 'с онлайн-сервисами и техникой', law: 'с чёткими договорами и порядком', build: 'со своим помещением или землёй' };
   function themesOf(t) {
     t = ' ' + String(t || '').toLowerCase() + ' ';
     return Object.keys(THEMES).filter(function (k) { return THEMES[k][1].some(function (w) { return t.indexOf(w) >= 0; }); });
@@ -832,33 +834,80 @@
     var recSec = sec(8, 'Рекомендации', '<ol class="diag-list astro-recs">' + recs.map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ol>');
 
     // --- Итог
-    // Сводим рекомендации всех методов по сферам деятельности
-    var tally = {}, sources = [];
-    function vote(label, list, w) {
-      list = list.filter(function (k, i) { return list.indexOf(k) === i; });
-      if (!list.length) return;
-      list.forEach(function (k) { (tally[k] = tally[k] || { score: 0, n: 0 }); tally[k].score += w * (k === 'spirit' ? 0.4 : 1); tally[k].n++; });
-      sources.push('<li><b>' + label + ':</b> ' + themeNames(list.slice(0, 5)) + '.</li>');
+    // Сферы деятельности по каждому методу, затем сложение в 1–2 темы
+    var tally = {}, groups = [];
+    function uniq(list) { return list.filter(function (k, i) { return k && list.indexOf(k) === i; }); }
+    function group(name) { var g = { name: name, rows: [], seen: {} }; groups.push(g); return g; }
+    function add(g, label, list, w) {
+      list = uniq(list); if (!list.length) return;
+      list.forEach(function (k) {
+        var t = tally[k] = tally[k] || { score: 0, groups: [] };
+        t.score += w * (k === 'spirit' ? 0.4 : 1);
+        if (t.groups.indexOf(g.name) < 0) t.groups.push(g.name);
+      });
+      g.rows.push('<li><b>' + label + ':</b> ' + themeNames(list.slice(0, 4)) + '.</li>');
     }
-    var mcSign = chart.angles ? Math.floor(chart.angles.mc / 30) : P.Sun.sign;
-    var tenth = Object.keys(PLANET_THEMES).filter(function (k) { return P[k] && P[k].house === 10; });
-    vote('Западная астрология (' + (chart.angles ? 'MC' : 'Солнце') + ' в знаке ' + SIGNS[mcSign] + (tenth.length ? ', в 10 доме ' + tenth.map(pname).join(', ') : '') + ')',
-      SIGN_THEMES[mcSign].concat.apply(SIGN_THEMES[mcSign], tenth.map(function (k) { return PLANET_THEMES[k]; })), 1.5);
-    vote('Ведическая астрология (атмакарака ' + GRAHA[ved.atmakaraka] + (ved.lagnaSign !== undefined && chart.angles ? ', 10 дом в знаке ' + SIGNS[(ved.lagnaSign + 9) % 12] : '') + ')',
-      (PLANET_THEMES[ved.atmakaraka] || []).concat(ved.lagnaSign !== undefined && chart.angles ? SIGN_THEMES[(ved.lagnaSign + 9) % 12] : []), 1);
-    vote('Бацзы (стихия денег — ' + EL[bz.wealthEl] + ')', [].concat.apply([], ACTIVITIES[bz.wealthEl].map(themesOf)).filter(function (k, i, a) { return a.indexOf(k) === i; }).slice(0, 4), 1.2);
-    vote('Тесты и профориентация', [].concat.apply([], jobs.filter(function (j) { return j.type !== 'line'; }).slice(0, 3).map(function (j) { return themesOf(j.name); })), 1.2);
-    vote('Архетип ' + A1.name, ARCH_THEMES[p.arch[0]] || [], 0.8);
-    if (p.nowText) vote('Ваши увлечения сейчас', themesOf(p.nowText), 1.5);
-    if (p.wishText) vote('Ваше желание', themesOf(p.wishText), 2.5);
-    var ranked = Object.keys(tally).sort(function (a, b) { return tally[b].score - tally[a].score || tally[b].n - tally[a].n; });
-    var t1 = ranked[0], t2 = ranked.filter(function (k) { return k !== t1 && (COMBOS[[t1, k].sort().join('+')] || tally[k].n >= 2); })[0] || ranked[1];
-    var combo = t1 && t2 ? COMBOS[[t1, t2].sort().join('+')] : null;
-    var idea = combo || (t1 && t2 ? 'дело на стыке двух сфер — «' + THEMES[t1][0] + '» и «' + THEMES[t2][0] + '»: ищите проект, где одно усиливает другое' : t1 ? THEMES[t1][0] : '');
-    var synthesis = idea ? '<div class="astro-key"><p class="diag-small">Где сходятся все методы</p><ul class="astro-sources">' + sources.join('') + '</ul>' +
-      '<p>Чаще всего повторяются сферы <b>«' + THEMES[t1][0] + '»</b>' + (t2 ? ' и <b>«' + THEMES[t2][0] + '»</b>' : '') + '. Если соединить их, получается общий смысл:</p>' +
-      '<p class="astro-final"><em>' + cap(idea) + '.</em></p>' +
-      '<p>Это не приказ, а направление: проверьте, откликается ли оно, и примерьте на свои силы, опыт и возможности.</p></div>' : '';
+    function planetsIn(h, field) { return Object.keys(PLANET_THEMES).filter(function (k) { return P[k] && P[k][field] === h; }); }
+    function houseThemes(sign, pl) { return [].concat.apply(SIGN_THEMES[sign].slice(), pl.map(function (k) { return PLANET_THEMES[k]; })); }
+    function houseLabel(title, sign, pl) { return title + ' в знаке ' + SIGNS[sign] + (pl.length ? ', ' + pl.map(pname).join(', ') : ''); }
+    // Западная астрология: дом денег, дом работы, дом карьеры и реализации
+    var gW = group('западная астрология');
+    if (chart.cusps) {
+      [[2, 'Дом денег (2)', 1], [6, 'Дом работы и ежедневного труда (6)', 1], [10, 'Дом карьеры и реализации (10, MC)', 1.5]].forEach(function (h) {
+        var sign = Math.floor(chart.cusps[h[0] - 1] / 30) % 12, pl = planetsIn(h[0], 'house');
+        add(gW, houseLabel(h[1], sign, pl), houseThemes(sign, pl), h[2]);
+      });
+    } else {
+      add(gW, 'Солнце в знаке ' + SIGNS[P.Sun.sign] + ' (без времени рождения дома не считаются)', SIGN_THEMES[P.Sun.sign], 1.2);
+      add(gW, 'Юпитер, планета удачи, в знаке ' + SIGNS[P.Jupiter.sign], SIGN_THEMES[P.Jupiter.sign], 0.8);
+    }
+    // Джйотиш: 10 дом (карма, дело), 2 и 11 дома (доход), атмакарака
+    var gV = group('джйотиш');
+    if (chart.angles && ved.lagnaSign !== undefined) {
+      var v10 = (ved.lagnaSign + 9) % 12, pl10 = planetsIn(10, 'vhouse');
+      add(gV, houseLabel('10 дом — карма и дело', v10, pl10), houseThemes(v10, pl10), 1.5);
+      var v2 = (ved.lagnaSign + 1) % 12, v11 = (ved.lagnaSign + 10) % 12, plInc = planetsIn(2, 'vhouse').concat(planetsIn(11, 'vhouse'));
+      add(gV, '2 и 11 дома — доход (' + SIGNS[v2] + ', ' + SIGNS[v11] + (plInc.length ? '; ' + plInc.map(pname).join(', ') : '') + ')', SIGN_THEMES[v2].concat(SIGN_THEMES[v11]).concat([].concat.apply([], plInc.map(function (k) { return PLANET_THEMES[k]; }))), 1);
+    }
+    if (PLANET_THEMES[ved.atmakaraka]) add(gV, 'Атмакарака — ' + GRAHA[ved.atmakaraka], PLANET_THEMES[ved.atmakaraka], 0.8);
+    // Бацзы: стихия денег и стихия таланта (то, что рождает Хозяин дня)
+    var gB = group('бацзы'), OUTPUT = { wood: 'fire', fire: 'earth', earth: 'metal', metal: 'water', water: 'wood' };
+    function elThemes(el) { return uniq([].concat.apply([], ACTIVITIES[el].map(themesOf))); }
+    add(gB, 'Стихия денег — ' + EL[bz.wealthEl], elThemes(bz.wealthEl), 1.5);
+    add(gB, 'Стихия таланта — ' + EL[OUTPUT[bz.dmEl]], elThemes(OUTPUT[bz.dmEl]), 1);
+    // Сам человек: желание, увлечения, подсказка из детства, тесты
+    var gP = group('ваши желания и тесты');
+    var RIASEC_THEMES = { R: ['craft', 'nature'], I: ['health', 'tech'], A: ['art', 'beauty'], S: ['psy', 'edu'], E: ['biz', 'media'], C: ['money', 'law'] };
+    if (p.wishText) add(gP, 'Ваше желание «' + esc(p.wishText) + '»', themesOf(p.wishText), 2.5);
+    if (p.nowText) add(gP, 'Увлечения сейчас «' + esc(p.nowText) + '»', themesOf(p.nowText), 1.5);
+    if (p.childText || p.child[p.childCode[0]] > 0) add(gP, 'Подсказка из детства' + (p.childText ? ' «' + esc(p.childText) + '»' : ' — ' + RIASEC[p.childCode[0]][0]), themesOf(p.childText).concat(p.child[p.childCode[0]] > 0 ? RIASEC_THEMES[p.childCode[0]] : []), 0.7);
+    add(gP, 'Тесты и профориентация', [].concat.apply([], jobs.filter(function (j) { return j.type !== 'line'; }).slice(0, 3).map(function (j) { return themesOf(j.name); })), 1);
+
+    // Пары сфер: сколько методов за ними стоит, есть ли у пары общий смысл
+    function power(k) { return tally[k] ? tally[k].score + tally[k].groups.length * 1.5 : 0; }
+    var cand = Object.keys(tally).sort(function (a, b) { return power(b) - power(a); }).slice(0, 7), pairs = [];
+    cand.forEach(function (a, i) { cand.slice(i + 1).forEach(function (b) {
+      var key = [a, b].sort().join('+'), methods = uniq(tally[a].groups.concat(tally[b].groups));
+      pairs.push({ a: a, b: b, text: COMBOS[key], score: power(a) + power(b) + methods.length + (COMBOS[key] ? 3 : 0), methods: methods });
+    }); });
+    pairs.sort(function (x, y) { return y.score - x.score; });
+    var topics = [];
+    if (pairs[0]) topics.push(pairs[0]);
+    // Вторая тема должна принести хотя бы одну новую сферу; пары с готовым смыслом — в приоритете
+    var fresh = pairs.filter(function (q) { return pairs[0] && q !== pairs[0] && [q.a, q.b].some(function (k) { return k !== pairs[0].a && k !== pairs[0].b; }); });
+    var second = fresh.filter(function (q) { return q.text; })[0] || fresh[0];
+    if (second) topics.push(second);
+    function topicText(q, idx) {
+      var used = [q.a, q.b], third = cand.filter(function (k) { return used.indexOf(k) < 0 && tally[k].groups.length >= 2 && ANGLE[k]; })[0];
+      if (idx > 0) third = null;
+      var main = q.text || 'дело на стыке сфер «' + THEMES[q.a][0] + '» и «' + THEMES[q.b][0] + '»: ищите проект, где одно усиливает другое';
+      return '<li><p class="astro-final"><em>' + cap(main) + (third ? ' — ' + ANGLE[third] : '') + '.</em></p>' +
+        '<p class="diag-note">Сферы: ' + themeNames([q.a, q.b].concat(third ? [third] : [])) + '. Сходятся: ' + q.methods.join(', ') + '.</p></li>';
+    }
+    var synthesis = groups.some(function (g) { return g.rows.length; }) ? '<div class="astro-key"><p class="diag-small">Сферы деятельности по каждому методу</p>' +
+      groups.filter(function (g) { return g.rows.length; }).map(function (g) { return '<p><b>' + cap(g.name) + '</b></p><ul class="astro-sources">' + g.rows.join('') + '</ul>'; }).join('') +
+      (topics.length ? '<p class="diag-small" style="margin-top:20px">Если сложить всё вместе</p><ol class="astro-topics">' + topics.map(topicText).join('') + '</ol>' +
+        '<p>Это не приказ, а направление: проверьте, что откликается, и примерьте на свои силы, опыт и возможности.</p>' : '') + '</div>' : '';
 
     var finalSec = sec(9, 'Итог',
       '<p class="astro-final">' + (f.name ? esc(f.name) + ', вы' : 'Вы') + ' — <em>' + A1.name + '</em> с Солнцем в знаке ' + sunS + ' и Хозяином дня ' + dmName + '. ' +

@@ -104,8 +104,9 @@
         var items = Array.prototype.map.call(el.children, function (li) {
           var b = li.querySelector('b'), sp = li.querySelector('span');
           if (el.classList.contains('astro-jobs') && b) return { stack: [{ text: txt(b), style: 'pb' }, { text: sp ? txt(sp) : '', style: 'small' }] };
-          var lp = li.querySelector(':scope > p');
-          if (lp) return { stack: [{ text: spaced(li, 'P'), style: 'pb' }, { text: txt(lp), style: 'small' }] };
+          var ps = li.querySelectorAll(':scope > p');
+          if (el.classList.contains('astro-topics')) return { stack: Array.prototype.map.call(ps, function (x, i) { return { text: txt(x), style: i ? 'small' : 'lead' }; }) };
+          if (ps.length) return { stack: [{ text: spaced(li, 'P'), style: 'pb' }, { text: txt(ps[0]), style: 'small' }] };
           return { text: spaced(li), style: 'p' };
         });
         out.push(tag === 'OL' ? { ol: items, margin: [0, 2, 0, 8] } : { ul: items, margin: [0, 2, 0, 8] });
