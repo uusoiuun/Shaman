@@ -70,10 +70,10 @@
     directresource: ['Наставник', 'обучение, поддержка, образование, забота о людях']
   };
   var ACTIVITIES = {
-    metal: ['финансы, банки, инвестиции', 'юриспруденция и договоры', 'инженерия, техника, станки', 'ювелирное дело и работа с металлом', 'изготовление инструментов и атрибутики', 'управление, контроль, аудит', 'IT-системы и безопасность', 'хирургия, стоматология, точная медицина'],
-    water: ['торговля и перепродажа', 'логистика и транспорт', 'путешествия и туризм', 'психология и консультирование', 'философия, духовные практики, ретриты', 'связь, переговоры, медиа', 'напитки, рыба, всё, что связано с водой', 'исследования и аналитика'],
+    metal: ['финансы, банки, инвестиции', 'юриспруденция и договоры', 'инженерия, техника, станки', 'ювелирное дело и работа с металлом', 'изделия и инструменты из металла', 'управление, контроль, аудит', 'IT-системы и безопасность', 'хирургия, стоматология, точная медицина'],
+    water: ['торговля и перепродажа', 'логистика и транспорт', 'путешествия и туризм', 'психология и консультирование', 'философия, ретриты и восстановление', 'связь, переговоры, медиа', 'напитки, рыба, всё, что связано с водой', 'исследования и аналитика'],
     wood: ['образование и обучение', 'книги, тексты, издательство', 'мода, текстиль, одежда', 'травы, растения, фитотерапия', 'медицина и восстановление здоровья', 'мебель и изделия из дерева', 'коучинг и развитие людей', 'экология и работа с природой'],
-    fire: ['медиа, блог, публичность', 'сцена, шоу, ведение праздников', 'реклама и маркетинг', 'красота и косметология', 'электроника и IT', 'энергетика', 'кулинария и ресторанное дело', 'обряды и ритуалы с огнём'],
+    fire: ['медиа, блог, публичность', 'сцена, шоу, ведение праздников', 'реклама и маркетинг', 'красота и косметология', 'электроника и IT', 'энергетика', 'кулинария и ресторанное дело', 'спорт, тренинги и мотивация'],
     earth: ['недвижимость и строительство', 'земля, хозяйство, фермерство', 'консалтинг и посредничество', 'страхование и хранение', 'керамика, камень, глина', 'гостиничное дело и гостевые дома', 'управление ресурсами и складом', 'забота о семье, дом и быт как бизнес']
   };
   var INDUSTRY = {
@@ -110,8 +110,8 @@
   };
   var JOBS = [
     ['R', 'metal', 'Практик, работающий руками: резьба, шитьё, кожа и мех, кузнечное дело, ремёсла'], ['R', 'wood', 'Мастер по дереву, столяр'], ['R', 'wood', 'Садовник, ландшафтный дизайнер'], ['R', 'water', 'Гид, инструктор походов и экспедиций'], ['R', 'earth', 'Массажист, телесный терапевт'], ['R', 'metal', 'Ювелир'], ['R', 'fire', 'Повар, мастер национальной кухни'],
-    ['I', 'water', 'Исследователь, учёный'], ['I', 'metal', 'Аналитик'], ['I', 'wood', 'Фитотерапевт, специалист по травам'], ['I', 'water', 'Астролог, специалист по метафизике'], ['I', 'fire', 'Программист'], ['I', 'earth', 'Историк, этнограф, знаток традиций'],
-    ['A', 'fire', 'Художник'], ['A', 'metal', 'Дизайнер одежды и украшений'], ['A', 'water', 'Музыкант'], ['A', 'fire', 'Фотограф, видеограф'], ['A', 'wood', 'Писатель, автор, сценарист'], ['A', 'earth', 'Мастер этнических изделий'], ['A', 'earth', 'Дизайнер интерьера'],
+    ['I', 'water', 'Исследователь, учёный'], ['I', 'metal', 'Врач, медицинский специалист'], ['I', 'metal', 'Аналитик'], ['I', 'wood', 'Фитотерапевт, специалист по травам'], ['I', 'water', 'Астролог, специалист по метафизике'], ['I', 'fire', 'Программист'], ['I', 'earth', 'Историк, этнограф, знаток традиций'],
+    ['A', 'fire', 'Художник'], ['A', 'fire', 'Косметолог, мастер красоты, стилист'], ['A', 'metal', 'Дизайнер одежды и украшений'], ['A', 'water', 'Музыкант'], ['A', 'fire', 'Фотограф, видеограф'], ['A', 'wood', 'Писатель, автор, сценарист'], ['A', 'earth', 'Мастер этнических изделий'], ['A', 'earth', 'Дизайнер интерьера'],
     ['S', 'water', 'Психолог, консультант'], ['S', 'wood', 'Преподаватель, наставник'], ['S', 'water', 'Проводник ретритов и духовных практик'], ['S', 'wood', 'Коуч'], ['S', 'earth', 'Руководитель социальных и семейных проектов'], ['S', 'wood', 'Реабилитолог, специалист по здоровью'], ['S', 'fire', 'Тренер, ведущий групп'],
     ['E', 'fire', 'Предприниматель'], ['E', 'metal', 'Руководитель проектов'], ['E', 'fire', 'Продюсер, организатор событий'], ['E', 'fire', 'Маркетолог, специалист по продажам'], ['E', 'water', 'Владелец туристического бизнеса'], ['E', 'metal', 'Юрист, переговорщик'], ['E', 'earth', 'Ресторатор, владелец гостевого дома'],
     ['C', 'metal', 'Финансист, бухгалтер'], ['C', 'earth', 'Администратор, операционный менеджер'], ['C', 'water', 'Логист'], ['C', 'earth', 'Архивист, специалист по документам'], ['C', 'metal', 'Аналитик данных']
@@ -162,9 +162,10 @@
     'Тянет ли вас к бубну, к обрядам, к природе, к старинным вещам?',
     'Говорили ли старшие, что вы «с даром»?',
     'Часто ли сбываются ваши желания?'
-  ].map(function (t) { return { set: 'line', text: t }; });
-  var LINE_SCALE = [['Да', 2], ['Не знаю', 1], ['Нет', 0]], LINE_MIN = 3;
-  var LINE_JOBS = ['Мастер шаманской атрибутики', 'Проводник обрядов и родовых практик', 'Травник, знахарь, костоправ'];
+  ].map(function (t, i) { return { set: 'line', text: t, rod: i === 0 }; });
+  // 3 «Да» — абзац о родовой линии; профессия рода — только при 4 «Да» и шаманах или знахарях в роду, одна и в конце списка
+  var LINE_SCALE = [['Да', 2], ['Не знаю', 1], ['Нет', 0]], LINE_MIN = 3, LINE_JOB_MIN = 4;
+  var LINE_JOBS = { R: 'Мастер традиционных изделий и атрибутики', S: 'Проводник обрядов и родовых практик', I: 'Травник, знаток народной медицины' };
   // Вы сейчас: увлечения, образование, семья, воспитание, способности и желания — главная опора профориентации
   function now(set, t, text) { return { set: set, t: t, text: text }; }
   var EDU_OPTS = [['Техническое, инженерное, IT', 'RI'], ['Естественные науки, медицина, ветеринария', 'IS'], ['Гуманитарное, творческое, искусство', 'A'], ['Педагогика, психология, социальная работа', 'S'], ['Экономика, право, управление', 'EC'], ['Рабочая специальность, колледж, ремесло', 'RC'], ['Пока нет профессионального образования', '']];
@@ -201,11 +202,100 @@
     t = String(t || '').toLowerCase();
     return Object.keys(TYPE_WORDS).filter(function (k) { return TYPE_WORDS[k].some(function (w) { return t.indexOf(w) >= 0; }); });
   }
+  // ---------- Сферы деятельности: в итоге сводим все методы в одну мысль ----------
+  var THEMES = {
+    health: ['здоровье и медицина', ['медиц', 'здоров', 'лечен', 'врач', 'хирург', 'стоматолог', 'массаж', 'телесн', 'фитотерап', 'реабилит', 'восстановлен', 'медсест', 'терапевт', 'нутрицио']],
+    beauty: ['красота и уход', ['красот', 'космет', 'стилист', 'мода', 'моды', 'украшен', 'ювелир', 'маникюр', 'парикмах', 'визаж', 'салон']],
+    edu: ['обучение и наставничество', ['образован', 'обучен', 'преподав', 'наставн', 'учител', 'коуч', 'школ', 'курсы', 'тренинг', 'развитие людей', 'ведущий групп']],
+    psy: ['психология и помощь людям', ['психолог', 'консульт', 'забот', 'социальн', 'семейн', 'помога', 'помощь']],
+    art: ['творчество и искусство', ['художник', 'музык', 'фото', 'видео', 'писат', 'сценар', 'дизайн', 'творч', 'сцен', 'шоу', 'этнич', 'танц', 'рису', 'пою', 'петь']],
+    media: ['слово, медиа и публичность', ['медиа', 'блог', 'публичн', 'реклам', 'маркет', 'журнал', 'книг', 'текст', 'издат', 'связь', 'переговор']],
+    craft: ['ремесло и производство', ['мастер', 'ремёс', 'ремесл', 'резьб', 'шить', 'шитьё', 'кожа', 'мех', 'кузн', 'мебел', 'столяр', 'изделия', 'изделий', 'керамик', 'камень', 'глина', 'вяз']],
+    nature: ['природа, травы и экология', ['природ', 'трав', 'растен', 'эколог', 'садов', 'ландшафт', 'ферм', 'хозяйств', 'животн', 'лес']],
+    travel: ['путешествия и туризм', ['туриз', 'туристич', 'путешеств', 'гид', 'поход', 'экспедиц', 'гостев', 'гостинич', 'логист', 'транспорт']],
+    food: ['кухня и гостеприимство', ['кулинар', 'ресторан', 'повар', 'кухн', 'напитк', 'рыба', 'еда', 'питан', 'кафе']],
+    money: ['финансы и аналитика', ['финанс', 'банк', 'инвест', 'бухгалт', 'аналит', 'страхован', 'экономи', 'данных', 'торгов', 'перепрод']],
+    biz: ['своё дело, управление и продажи', ['предприним', 'своё дело', 'свое дело', 'бизнес', 'управлен', 'руковод', 'продаж', 'продюсер', 'организ', 'проект', 'консалтинг', 'посредн', 'владел', 'менеджер']],
+    tech: ['техника и IT', ['it-', ' it', 'программ', 'электрон', 'техник', 'инженер', 'станк', 'энергет', 'систем']],
+    law: ['право и порядок', ['юрис', 'договор', 'право', 'контрол', 'аудит', 'документ', 'архив', 'администр']],
+    build: ['строительство и недвижимость', ['недвиж', 'строит', 'земля', 'ремонт', 'склад', 'ресурс', 'дом и быт']],
+    spirit: ['традиции и духовные практики', ['духовн', 'ретрит', 'обряд', 'ритуал', 'метафиз', 'астролог', 'философ', 'традиц']]
+  };
+  var SIGN_THEMES = [['biz', 'tech'], ['money', 'beauty', 'food'], ['media', 'edu', 'biz'], ['food', 'psy', 'build'], ['art', 'biz', 'edu'], ['health', 'money', 'craft'], ['beauty', 'law', 'art'], ['psy', 'health', 'money'], ['edu', 'travel', 'law'], ['biz', 'build', 'law'], ['tech', 'edu', 'psy'], ['health', 'art', 'spirit']];
+  var PLANET_THEMES = { Sun: ['biz', 'media'], Moon: ['food', 'psy'], Mercury: ['media', 'money', 'edu'], Venus: ['beauty', 'art'], Mars: ['health', 'tech', 'build'], Jupiter: ['edu', 'law', 'money'], Saturn: ['craft', 'build', 'law'], Uranus: ['tech'], Neptune: ['art', 'health'], Pluto: ['psy', 'money'] };
+  var ARCH_THEMES = [['psy', 'edu'], ['edu', 'media'], ['travel', 'nature'], ['tech', 'biz'], ['psy', 'health'], ['health', 'biz'], ['beauty', 'art'], ['media', 'art'], ['food', 'craft'], ['health', 'psy'], ['biz', 'law'], ['art', 'craft']];
+  // Пары сфер и общий смысл, который из них получается
+  var COMBOS = {
+    'beauty+health': 'открыть частную клинику или кабинет красоты и здоровья: эстетическая медицина, косметология, восстановление',
+    'biz+health': 'своя частная клиника, медицинский центр или кабинет — врачебное дело как собственное дело',
+    'edu+health': 'школа здоровья: курсы и обучение тому, как восстанавливаться и беречь себя',
+    'health+psy': 'частная практика восстановления: реабилитация, психосоматика, помощь телу и душе',
+    'health+nature': 'оздоровление природой: фитотерапия, травяные сборы, эко-оздоровительный центр',
+    'health+travel': 'оздоровительный туризм: туры и ретриты для восстановления здоровья',
+    'food+health': 'здоровое питание: нутрициология, своё кафе или производство полезной еды',
+    'health+tech': 'медицинские технологии: оборудование, онлайн-сервисы, диагностика',
+    'health+money': 'управление медицинским бизнесом: клиника, аптечное дело, страховая медицина',
+    'art+health': 'арт-терапия и музыкотерапия: творчество как путь к восстановлению',
+    'art+beauty': 'свой бренд красоты и стиля: дизайн, украшения, создание образа',
+    'beauty+biz': 'свой салон, студия красоты или бренд косметики',
+    'beauty+craft': 'украшения и аксессуары ручной работы, своя ювелирная мастерская',
+    'beauty+media': 'блог и бренд о красоте: обучение, обзоры, своя линейка',
+    'beauty+edu': 'школа красоты: обучение мастеров',
+    'beauty+nature': 'натуральная косметика на травах: своё производство',
+    'art+biz': 'своя студия, галерея или творческий бренд',
+    'art+craft': 'мастерская авторских изделий: этно-дизайн, керамика, одежда',
+    'art+media': 'свой блог или канал, продюсирование творческих проектов',
+    'art+edu': 'творческая школа или студия для детей и взрослых',
+    'art+travel': 'творческие туры и фото-экспедиции',
+    'art+psy': 'творческие практики для восстановления и арт-терапия',
+    'biz+craft': 'своя мастерская и бренд изделий с продажами по стране',
+    'biz+edu': 'своя школа, курсы или образовательный центр',
+    'biz+food': 'своё кафе, ресторан национальной кухни или пищевое производство',
+    'biz+media': 'своё агентство: маркетинг, реклама, продвижение',
+    'biz+money': 'финансовое дело: инвестиции, консалтинг, своя торговля',
+    'biz+nature': 'фермерское хозяйство или эко-производство как своё дело',
+    'biz+psy': 'консалтинг и коучинг для бизнеса, работа с командами',
+    'biz+tech': 'технологический проект или IT-сервис',
+    'biz+travel': 'своё турагентство или гостевой дом',
+    'biz+build': 'строительство и недвижимость как своё дело',
+    'biz+law': 'своя юридическая или консалтинговая фирма',
+    'craft+nature': 'изделия из природных материалов: дерево, кость, береста, мех',
+    'craft+edu': 'мастер-классы и своя школа ремесла',
+    'build+craft': 'строительство и отделка: свой цех или бригада',
+    'edu+psy': 'своя практика и курсы по психологии и развитию людей',
+    'edu+media': 'онлайн-школа, книги и курсы: делиться знаниями широко',
+    'edu+nature': 'природные курсы и экологическое просвещение',
+    'edu+travel': 'образовательные туры и экспедиции',
+    'edu+tech': 'онлайн-образование и IT-курсы',
+    'edu+law': 'обучение специалистов и консультации по праву',
+    'food+travel': 'гастротуры и гостевой дом с национальной кухней',
+    'food+nature': 'фермерские продукты, дикоросы, своё производство',
+    'media+psy': 'блог, подкаст или книги о психологии',
+    'media+travel': 'медиа о путешествиях: блог, путеводители, съёмки',
+    'media+tech': 'цифровые продукты: приложения, сайты, контент',
+    'money+tech': 'финтех и аналитика данных',
+    'law+money': 'финансовое и юридическое сопровождение: бухгалтерия, аудит',
+    'build+money': 'инвестиции в недвижимость',
+    'nature+travel': 'эко-туризм: туры по природе Якутии, походы, экспедиции',
+    'nature+psy': 'восстановление на природе: эко-ретриты и терапия природой',
+    'psy+travel': 'путешествия и ретриты для восстановления',
+    'law+psy': 'медиация: помощь в конфликтах и семейных спорах',
+    'build+nature': 'загородное строительство, эко-дома, ландшафт',
+    'build+travel': 'гостевые дома и турбазы',
+    'build+tech': 'инженерные системы и умный дом'
+  };
+  // Третья сфера добавляет оттенок к общей теме
+  var ANGLE = { health: 'с заботой о здоровье', beauty: 'с акцентом на красоту', edu: 'с обучением других', psy: 'с поддержкой людей', art: 'с творческим подходом', media: 'с продвижением через блог и медиа', craft: 'с изделиями своими руками', nature: 'на природных материалах и травах', travel: 'с выездами и турами', food: 'с угощением и гостеприимством', money: 'с грамотным расчётом и финансами', biz: 'как собственное дело', tech: 'с онлайн-сервисами и техникой', law: 'с чёткими договорами и порядком', build: 'со своим помещением или землёй' };
+  function themesOf(t) {
+    t = ' ' + String(t || '').toLowerCase() + ' ';
+    return Object.keys(THEMES).filter(function (k) { return THEMES[k][1].some(function (w) { return t.indexOf(w) >= 0; }); });
+  }
+  function themeNames(list) { return list.map(function (k) { return THEMES[k][0]; }).join(', '); }
   var GENERIC = ['специалист', 'руководитель', 'работающий', 'менеджер', 'владелец', 'изделий', 'практик'];
   // Профессия совпадает с желанием, если в ответе есть основа слова из её названия
   function wordsMatch(text, name) {
     text = String(text || '').toLowerCase(); if (!text) return false;
-    return name.toLowerCase().split(/[^а-яёһөүҥҕa-z]+/).some(function (w) { return w.length >= 5 && GENERIC.indexOf(w) < 0 && text.indexOf(w.slice(0, Math.max(5, w.length - 3))) >= 0; });
+    return name.toLowerCase().split(/[^а-яёһөүҥҕa-z]+/).some(function (w) { return w.length >= 4 && GENERIC.indexOf(w) < 0 && text.indexOf(w.length <= 5 ? w : w.slice(0, Math.max(5, w.length - 3))) >= 0; });
   }
   var Q_ARCH = (DIAG.ARCH_QS || []).map(function (q) { return { set: 'arch', text: q.text, opts: q.opts }; });
   var BLOCKS = [
@@ -393,12 +483,12 @@
 
   // ---------- Шаг 3: расчёт ----------
   function psych() {
-    var big = { E: 0, A: 0, C: 0, N: 0, O: 0 }, rs = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, child = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, childText = '', line = 0, nowT = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, wishT = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, nowText = '', wishText = '', edu = null, family = null, raise = null, arch = (DIAG.ARCH || []).map(function () { return 0; });
+    var big = { E: 0, A: 0, C: 0, N: 0, O: 0 }, rs = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, child = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, childText = '', line = 0, lineRod = false, nowT = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, wishT = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, nowText = '', wishText = '', edu = null, family = null, raise = null, arch = (DIAG.ARCH || []).map(function () { return 0; });
     FLAT.forEach(function (it, i) {
       var a = state.answers[i]; if (a === undefined || a === null) return;
       var q = it.q;
       if (q.set === 'childText') { childText = String(a); return; }
-      if (q.set === 'line') { if (a === 2) line++; return; }
+      if (q.set === 'line') { if (a === 2) { line++; if (q.rod) lineRod = true; } return; }
       if (q.set === 'child') { child[q.t] += a; rs[q.t] += a * 0.5; return; } // детство — подсказка, весит меньше нынешнего
       if (q.set === 'nowText') { nowText = String(a); return; }
       if (q.set === 'wishText') { wishText = String(a); return; }
@@ -418,7 +508,7 @@
     var code = Object.keys(rs).sort(function (a, b) { return rs[b] - rs[a]; });
     var archRank = arch.map(function (v, i) { return i; }).sort(function (a, b) { return arch[b] - arch[a]; });
     var childCode = Object.keys(child).sort(function (a, b) { return child[b] - child[a]; });
-    return { big: big, rs: rs, code: code, arch: archRank, child: child, childCode: childCode, childText: childText, line: line,
+    return { big: big, rs: rs, code: code, arch: archRank, child: child, childCode: childCode, childText: childText, line: line, lineRod: lineRod,
       nowText: nowText, wishText: wishText, nowTop: top(nowT), wishTop: top(wishT), edu: edu, family: family, raise: raise };
   }
 
@@ -454,9 +544,13 @@
       for (var i = top.length - 1; i >= 0; i--) if (!top[i].wish) { top.splice(i, 1); break; }
       top.splice(0, 0, w);
     });
-    top.sort(function (a, b) { return b.score - a.score; });
-    // Признаки родовой линии поднимают профессии рода сразу за главной
-    if (p.line >= LINE_MIN) top = top.slice(0, 1).concat(LINE_JOBS.map(function (n) { return { name: n, type: 'line', score: 0, why: ['признаки родовой линии'] }; }), top.slice(1, 5));
+    // Названное самим человеком — первым
+    top.sort(function (a, b) { return (b.wish ? 1 : 0) - (a.wish ? 1 : 0) || b.score - a.score; });
+    // Профессия рода — только как дополнение в конце списка
+    if (p.line >= LINE_JOB_MIN && p.lineRod) {
+      var lt = ['S', 'I', 'R'].sort(function (a, b) { return p.rs[b] - p.rs[a]; })[0];
+      top.push({ name: LINE_JOBS[lt], type: 'line', score: 0, why: ['дополнительно: признаки родовой линии'] });
+    }
     return top;
   }
 
@@ -736,15 +830,90 @@
       big.N >= 11 ? 'Берегите ресурс: вы тонко чувствуете и быстро устаёте от лишних людей и шума.' : 'Ваша устойчивость — опора для других; не берите на себя слишком много чужого.',
       bestYears.length ? 'Главные шаги планируйте на благоприятные годы: ' + bestYears.slice(0, 4).join(', ') + '.' : 'Ближайшие годы спокойные — время учиться и готовить почву.'
     ];
-    if (p.line >= LINE_MIN) recs.splice(1, 0, 'Обсудите с шаманом на личном приёме признаки родовой линии: дар рода просит внимания и правильного обращения.');
+    if (p.line >= LINE_MIN) recs.push('Обсудите с шаманом на личном приёме признаки родовой линии: дар рода просит внимания и правильного обращения.');
     var recSec = sec(8, 'Рекомендации', '<ol class="diag-list astro-recs">' + recs.map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ol>');
 
     // --- Итог
+    // Сферы деятельности по каждому методу, затем сложение в 1–2 темы
+    var tally = {}, groups = [];
+    function uniq(list) { return list.filter(function (k, i) { return k && list.indexOf(k) === i; }); }
+    function group(name) { var g = { name: name, rows: [], seen: {} }; groups.push(g); return g; }
+    function add(g, label, list, w) {
+      list = uniq(list); if (!list.length) return;
+      list.forEach(function (k) {
+        var t = tally[k] = tally[k] || { score: 0, groups: [] };
+        t.score += w * (k === 'spirit' ? 0.4 : 1);
+        if (t.groups.indexOf(g.name) < 0) t.groups.push(g.name);
+      });
+      g.rows.push('<li><b>' + label + ':</b> ' + themeNames(list.slice(0, 4)) + '.</li>');
+    }
+    function planetsIn(h, field) { return Object.keys(PLANET_THEMES).filter(function (k) { return P[k] && P[k][field] === h; }); }
+    function houseThemes(sign, pl) { return [].concat.apply(SIGN_THEMES[sign].slice(), pl.map(function (k) { return PLANET_THEMES[k]; })); }
+    function houseLabel(title, sign, pl) { return title + ' в знаке ' + SIGNS[sign] + (pl.length ? ', ' + pl.map(pname).join(', ') : ''); }
+    // Западная астрология: дом денег, дом работы, дом карьеры и реализации
+    var gW = group('западная астрология');
+    if (chart.cusps) {
+      [[2, 'Дом денег (2)', 1], [6, 'Дом работы и ежедневного труда (6)', 1], [10, 'Дом карьеры и реализации (10, MC)', 1.5]].forEach(function (h) {
+        var sign = Math.floor(chart.cusps[h[0] - 1] / 30) % 12, pl = planetsIn(h[0], 'house');
+        add(gW, houseLabel(h[1], sign, pl), houseThemes(sign, pl), h[2]);
+      });
+    } else {
+      add(gW, 'Солнце в знаке ' + SIGNS[P.Sun.sign] + ' (без времени рождения дома не считаются)', SIGN_THEMES[P.Sun.sign], 1.2);
+      add(gW, 'Юпитер, планета удачи, в знаке ' + SIGNS[P.Jupiter.sign], SIGN_THEMES[P.Jupiter.sign], 0.8);
+    }
+    // Джйотиш: 10 дом (карма, дело), 2 и 11 дома (доход), атмакарака
+    var gV = group('джйотиш');
+    if (chart.angles && ved.lagnaSign !== undefined) {
+      var v10 = (ved.lagnaSign + 9) % 12, pl10 = planetsIn(10, 'vhouse');
+      add(gV, houseLabel('10 дом — карма и дело', v10, pl10), houseThemes(v10, pl10), 1.5);
+      var v2 = (ved.lagnaSign + 1) % 12, v11 = (ved.lagnaSign + 10) % 12, plInc = planetsIn(2, 'vhouse').concat(planetsIn(11, 'vhouse'));
+      add(gV, '2 и 11 дома — доход (' + SIGNS[v2] + ', ' + SIGNS[v11] + (plInc.length ? '; ' + plInc.map(pname).join(', ') : '') + ')', SIGN_THEMES[v2].concat(SIGN_THEMES[v11]).concat([].concat.apply([], plInc.map(function (k) { return PLANET_THEMES[k]; }))), 1);
+    }
+    if (PLANET_THEMES[ved.atmakaraka]) add(gV, 'Атмакарака — ' + GRAHA[ved.atmakaraka], PLANET_THEMES[ved.atmakaraka], 0.8);
+    // Бацзы: стихия денег и стихия таланта (то, что рождает Хозяин дня)
+    var gB = group('бацзы'), OUTPUT = { wood: 'fire', fire: 'earth', earth: 'metal', metal: 'water', water: 'wood' };
+    function elThemes(el) { return uniq([].concat.apply([], ACTIVITIES[el].map(themesOf))); }
+    add(gB, 'Стихия денег — ' + EL[bz.wealthEl], elThemes(bz.wealthEl), 1.5);
+    add(gB, 'Стихия таланта — ' + EL[OUTPUT[bz.dmEl]], elThemes(OUTPUT[bz.dmEl]), 1);
+    // Сам человек: желание, увлечения, подсказка из детства, тесты
+    var gP = group('ваши желания и тесты');
+    var RIASEC_THEMES = { R: ['craft', 'nature'], I: ['health', 'tech'], A: ['art', 'beauty'], S: ['psy', 'edu'], E: ['biz', 'media'], C: ['money', 'law'] };
+    if (p.wishText) add(gP, 'Ваше желание «' + esc(p.wishText) + '»', themesOf(p.wishText), 2.5);
+    if (p.nowText) add(gP, 'Увлечения сейчас «' + esc(p.nowText) + '»', themesOf(p.nowText), 1.5);
+    if (p.childText || p.child[p.childCode[0]] > 0) add(gP, 'Подсказка из детства' + (p.childText ? ' «' + esc(p.childText) + '»' : ' — ' + RIASEC[p.childCode[0]][0]), themesOf(p.childText).concat(p.child[p.childCode[0]] > 0 ? RIASEC_THEMES[p.childCode[0]] : []), 0.7);
+    add(gP, 'Тесты и профориентация', [].concat.apply([], jobs.filter(function (j) { return j.type !== 'line'; }).slice(0, 3).map(function (j) { return themesOf(j.name); })), 1);
+
+    // Пары сфер: сколько методов за ними стоит, есть ли у пары общий смысл
+    function power(k) { return tally[k] ? tally[k].score + tally[k].groups.length * 1.5 : 0; }
+    var cand = Object.keys(tally).sort(function (a, b) { return power(b) - power(a); }).slice(0, 7), pairs = [];
+    cand.forEach(function (a, i) { cand.slice(i + 1).forEach(function (b) {
+      var key = [a, b].sort().join('+'), methods = uniq(tally[a].groups.concat(tally[b].groups));
+      pairs.push({ a: a, b: b, text: COMBOS[key], score: power(a) + power(b) + methods.length + (COMBOS[key] ? 3 : 0), methods: methods });
+    }); });
+    pairs.sort(function (x, y) { return y.score - x.score; });
+    var topics = [];
+    if (pairs[0]) topics.push(pairs[0]);
+    // Вторая тема должна принести хотя бы одну новую сферу; пары с готовым смыслом — в приоритете
+    var fresh = pairs.filter(function (q) { return pairs[0] && q !== pairs[0] && [q.a, q.b].some(function (k) { return k !== pairs[0].a && k !== pairs[0].b; }); });
+    var second = fresh.filter(function (q) { return q.text; })[0] || fresh[0];
+    if (second) topics.push(second);
+    function topicText(q, idx) {
+      var used = [q.a, q.b], third = cand.filter(function (k) { return used.indexOf(k) < 0 && tally[k].groups.length >= 2 && ANGLE[k]; })[0];
+      if (idx > 0) third = null;
+      var main = q.text || 'дело на стыке сфер «' + THEMES[q.a][0] + '» и «' + THEMES[q.b][0] + '»: ищите проект, где одно усиливает другое';
+      return '<li><p class="astro-final"><em>' + cap(main) + (third ? ' — ' + ANGLE[third] : '') + '.</em></p>' +
+        '<p class="diag-note">Сферы: ' + themeNames([q.a, q.b].concat(third ? [third] : [])) + '. Сходятся: ' + q.methods.join(', ') + '.</p></li>';
+    }
+    var synthesis = groups.some(function (g) { return g.rows.length; }) ? '<div class="astro-key"><p class="diag-small">Сферы деятельности по каждому методу</p>' +
+      groups.filter(function (g) { return g.rows.length; }).map(function (g) { return '<p><b>' + cap(g.name) + '</b></p><ul class="astro-sources">' + g.rows.join('') + '</ul>'; }).join('') +
+      (topics.length ? '<p class="diag-small" style="margin-top:20px">Если сложить всё вместе</p><ol class="astro-topics">' + topics.map(topicText).join('') + '</ol>' +
+        '<p>Это не приказ, а направление: проверьте, что откликается, и примерьте на свои силы, опыт и возможности.</p>' : '') + '</div>' : '';
+
     var finalSec = sec(9, 'Итог',
       '<p class="astro-final">' + (f.name ? esc(f.name) + ', вы' : 'Вы') + ' — <em>' + A1.name + '</em> с Солнцем в знаке ' + sunS + ' и Хозяином дня ' + dmName + '. ' +
       'Ваше дело — «' + jobs[0].name.toLowerCase() + '» и близкие к нему занятия; деньги приходят через стихию ' + EL_GEN[bz.wealthEl] + '; ' +
-      'душа растёт, когда вы развиваете ' + SIGN_QUALITY[P.NorthNode.sign] + '.</p>' + summary +
-      '<p>Все методы — тесты, западная и ведическая астрология, бацзы и астрокартография — смотрят на вас с разных сторон, но говорят об одном: ваша сила там, где совпадают детская радость, характер и стихия денег. Начните с одного шага в эту сторону уже сейчас.</p>');
+      'душа растёт, когда вы развиваете ' + SIGN_QUALITY[P.NorthNode.sign] + '.</p>' + synthesis + summary +
+      '<p>Все методы — тесты, западная и ведическая астрология, бацзы и астрокартография — смотрят на вас с разных сторон, но говорят об одном: ваша сила там, где совпадают ваши желания, характер и стихия денег. Начните с одного шага в эту сторону уже сейчас.</p>');
 
     // --- Бесплатная часть: открывает главное и показывает, что ещё найдено
     function mask(t) { return String(t).split(' ').map(function (w) { return w.length > 1 ? w.charAt(0) + new Array(w.length).join('•') : w; }).join(' '); }
