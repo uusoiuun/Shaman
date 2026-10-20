@@ -774,7 +774,7 @@
       '<ul class="astro-includes"><li><sup>/1</sup>Психологический портрет и архетипы</li><li><sup>/2</sup>Профориентация: увлечения, способности, желания, образование и подсказка из детства</li><li><sup>/3</sup>Западная карта: планеты, дома, аспекты, узлы, Лилит</li><li><sup>/4</sup>Ведическая карта и большие периоды-даши</li><li><sup>/5</sup>Бацзы: стихия денег, такты удачи, лучшие годы</li><li><sup>/6</sup>Лучшие города для карьеры, денег, любви и жизни</li><li><sup>/7</sup>Периоды жизни по десятилетиям</li><li><sup>/8</sup>Рекомендации и <sup>/9</sup>итог</li></ul>' +
       '<p>Чтобы получить код доступа, напишите шаману.</p>' +
       '<div class="diag-actions"><a class="btn btn-lime" target="_blank" rel="noopener" href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waMsg) + '">Оплатить ' + PRICE + ' и получить код</a></div>' +
-      '<form class="astro-code"><label for="as-code">Код доступа</label><div><input id="as-code" type="text" placeholder="UO-XXXX-XXXX" autocomplete="off"><button class="btn btn-ghost" type="submit">Открыть</button></div><p class="diag-error" hidden>Код не подошёл. Проверьте написание или напишите шаману.</p></form></div>';
+      '<form class="astro-code"><label for="as-code">Код доступа</label><div><input id="as-code" type="text" placeholder="UO-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn btn-ghost" type="button" data-act="code">Открыть</button></div><p class="diag-error" hidden>Код не подошёл. Проверьте написание или напишите шаману.</p></form></div>';
 
     scrollTop();
     swap(
@@ -805,7 +805,10 @@
           }).catch(function () { if (!quiet) err.hidden = false; });
         }
         if (codeForm) {
+          // Кнопка работает сама по себе: во встроенных браузерах отправка форм бывает запрещена
           codeForm.addEventListener('submit', function (e) { e.preventDefault(); tryCode(false); });
+          codeForm.querySelector('[data-act="code"]').addEventListener('click', function () { tryCode(false); });
+          codeForm.querySelector('#as-code').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); tryCode(false); } });
           // Вставленный целиком код проверяем сразу, без нажатия «Открыть»
           codeForm.querySelector('#as-code').addEventListener('input', function () {
             if (/^UO-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(normCode(this.value))) tryCode(true);
