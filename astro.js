@@ -797,23 +797,57 @@
           if (window.SakhaPDF) window.SakhaPDF.download(card, open ? 'Астрологический разбор' : 'Астрологический разбор — первый взгляд', f.name, e.currentTarget);
         });
         var codeForm = card.querySelector('.astro-code');
-        if (codeForm) codeForm.addEventListener('submit', function (e) {
-          e.preventDefault();
+        function tryCode(quiet) {
           var v = normCode(card.querySelector('#as-code').value), err = codeForm.querySelector('.diag-error');
-          sha(v).then(function (h) {
+          return sha(v).then(function (h) {
             if (CODE_HASHES.indexOf(h.slice(0, 24)) >= 0) { openReport(); renderReport(); }
-            else err.hidden = false;
+            else if (!quiet) err.hidden = false;
+          }).catch(function () { if (!quiet) err.hidden = false; });
+        }
+        if (codeForm) {
+          codeForm.addEventListener('submit', function (e) { e.preventDefault(); tryCode(false); });
+          // Вставленный целиком код проверяем сразу, без нажатия «Открыть»
+          codeForm.querySelector('#as-code').addEventListener('input', function () {
+            if (/^UO-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(normCode(this.value))) tryCode(true);
           });
-        });
+        }
       }
     );
   }
   function sec(n, title, body) { return '<section class="diag-sec"><h4><sup>/' + n + '</sup>' + title + '</h4>' + body + '</section>'; }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  // На странице без https браузер отключает crypto.subtle — тогда считаем SHA-256 сами
   function sha(text) {
-    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function (buf) {
-      return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
-    });
+    if (window.crypto && crypto.subtle && window.isSecureContext !== false) {
+      return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function (buf) {
+        return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
+      }).catch(function () { return sha256(text); });
+    }
+    return Promise.resolve(sha256(text));
+  }
+  function sha256(text) {
+    var bytes = unescape(encodeURIComponent(text)), K = [], H = [], i, j;
+    function isPrime(n) { for (var d = 2; d * d <= n; d++) if (n % d === 0) return false; return true; }
+    function frac(x) { return ((x - Math.floor(x)) * 4294967296) | 0; }
+    for (var n = 2, c = 0; c < 64; n++) if (isPrime(n)) { if (c < 8) H[c] = frac(Math.pow(n, 1 / 2)); K[c++] = frac(Math.pow(n, 1 / 3)); }
+    var l = bytes.length, words = [];
+    for (i = 0; i < l; i++) words[i >> 2] |= bytes.charCodeAt(i) << (24 - (i % 4) * 8);
+    words[l >> 2] |= 0x80 << (24 - (l % 4) * 8);
+    words[(((l + 8) >> 6) << 4) + 15] = l * 8;
+    function r(x, k) { return (x >>> k) | (x << (32 - k)); }
+    for (i = 0; i < words.length; i += 16) {
+      var w = [], a = H[0], b = H[1], cc = H[2], d = H[3], e = H[4], f = H[5], g = H[6], h = H[7];
+      for (j = 0; j < 64; j++) {
+        if (j < 16) w[j] = words[i + j] | 0;
+        else w[j] = (w[j - 16] + (r(w[j - 15], 7) ^ r(w[j - 15], 18) ^ (w[j - 15] >>> 3)) + w[j - 7] + (r(w[j - 2], 17) ^ r(w[j - 2], 19) ^ (w[j - 2] >>> 10))) | 0;
+        var t1 = (h + (r(e, 6) ^ r(e, 11) ^ r(e, 25)) + ((e & f) ^ (~e & g)) + K[j] + w[j]) | 0;
+        var t2 = ((r(a, 2) ^ r(a, 13) ^ r(a, 22)) + ((a & b) ^ (a & cc) ^ (b & cc))) | 0;
+        h = g; g = f; f = e; e = (d + t1) | 0; d = cc; cc = b; b = a; a = (t1 + t2) | 0;
+      }
+      H[0] = (H[0] + a) | 0; H[1] = (H[1] + b) | 0; H[2] = (H[2] + cc) | 0; H[3] = (H[3] + d) | 0;
+      H[4] = (H[4] + e) | 0; H[5] = (H[5] + f) | 0; H[6] = (H[6] + g) | 0; H[7] = (H[7] + h) | 0;
+    }
+    return H.map(function (x) { return ('00000000' + (x >>> 0).toString(16)).slice(-8); }).join('');
   }
 
   load();
