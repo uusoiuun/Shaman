@@ -145,7 +145,7 @@
   // Детство — ключ к призванию: что человек любил до того, как появились «надо»
   function kid(t, text) { return { set: 'child', t: t, text: 'В детстве я любил(а) ' + text }; }
   var Q_CHILD = [
-    { set: 'childText', type: 'text', text: 'Чем вы больше всего любили заниматься в детстве? Напишите своими словами — это ключ к вашему призванию' },
+    { set: 'childText', type: 'text', text: 'Чем вы больше всего любили заниматься в детстве? Напишите своими словами — это подсказка к вашему призванию', placeholder: 'Например: рисовала часами, собирала травы с бабушкой, устраивала концерты…' },
     kid('R', 'мастерить, строить, разбирать вещи'), kid('I', 'задавать вопросы «почему?» и читать энциклопедии'), kid('A', 'рисовать, лепить, петь или танцевать'),
     kid('S', 'заботиться о младших, играть «в школу» или «в больницу»'), kid('E', 'быть заводилой и командовать в играх'), kid('C', 'раскладывать вещи по порядку, собирать коллекции'),
     kid('R', 'бегать, лазить, играть на улице и в лесу'), kid('I', 'наблюдать за природой, звёздами, ставить опыты'), kid('A', 'сочинять истории, играть в театр, наряжаться'),
@@ -165,26 +165,70 @@
   ].map(function (t) { return { set: 'line', text: t }; });
   var LINE_SCALE = [['Да', 2], ['Не знаю', 1], ['Нет', 0]], LINE_MIN = 3;
   var LINE_JOBS = ['Мастер шаманской атрибутики', 'Проводник обрядов и родовых практик', 'Травник, знахарь, костоправ'];
+  // Вы сейчас: увлечения, образование, семья, воспитание, способности и желания — главная опора профориентации
+  function now(set, t, text) { return { set: set, t: t, text: text }; }
+  var EDU_OPTS = [['Техническое, инженерное, IT', 'RI'], ['Естественные науки, медицина, ветеринария', 'IS'], ['Гуманитарное, творческое, искусство', 'A'], ['Педагогика, психология, социальная работа', 'S'], ['Экономика, право, управление', 'EC'], ['Рабочая специальность, колледж, ремесло', 'RC'], ['Пока нет профессионального образования', '']];
+  var FAMILY_OPTS = [['Работали руками: хозяйство, скот, стройка, техника', 'R'], ['Наука, медицина, инженерия', 'I'], ['Творчество, культура, искусство', 'A'], ['Учили, лечили, служили людям', 'S'], ['Своё дело, руководство', 'E'], ['Служащие, бухгалтерия, госслужба', 'C']];
+  var RAISE_OPTS = [['Труд и самостоятельность', 'R'], ['Знания и учёбу', 'I'], ['Свободу и творчество', 'A'], ['Заботу о близких и доброту', 'S'], ['Успех и умение добиться своего', 'E'], ['Порядок, дисциплину и послушание', 'C']];
+  function choice(set, text, list) { return { set: set, text: text, opts: list.map(function (o, i) { return [i, o[0]]; }), types: list.map(function (o) { return o[1]; }) }; }
+  var Q_NOW = [
+    { set: 'nowText', type: 'text', text: 'Чем вы увлекаетесь сейчас? Что делаете в свободное время с удовольствием?', placeholder: 'Например: вяжу, хожу в походы, читаю про психологию, занимаюсь с детьми…' },
+    now('now', 'R', 'Сейчас я люблю мастерить, работать руками или на природе'), now('now', 'I', 'Сейчас я люблю изучать новое, читать, разбираться в сложном'),
+    now('now', 'A', 'Сейчас я люблю творить: рисовать, петь, шить, писать'), now('now', 'S', 'Сейчас я люблю общаться, помогать и поддерживать людей'),
+    now('now', 'E', 'Сейчас я люблю организовывать, договариваться, зарабатывать'), now('now', 'C', 'Сейчас я люблю наводить порядок, планировать, считать'),
+    choice('edu', 'Ваше образование', EDU_OPTS),
+    choice('family', 'Чем в основном занималась семья, в которой вы выросли?', FAMILY_OPTS),
+    choice('raise', 'Что больше всего ценили в вашем воспитании?', RAISE_OPTS),
+    now('skill', 'R', 'У меня хорошо получается делать что-то руками: чинить, строить, готовить'), now('skill', 'I', 'У меня хорошо получается анализировать и находить причины'),
+    now('skill', 'A', 'У меня хорошо получается придумывать идеи и создавать красивое'), now('skill', 'S', 'У меня хорошо получается понимать людей и объяснять'),
+    now('skill', 'E', 'У меня хорошо получается убеждать и вести за собой'), now('skill', 'C', 'У меня хорошо получается доводить дела до конца и держать всё в порядке'),
+    { set: 'wishText', type: 'text', text: 'Кем вы хотите быть или чем хотите заниматься? Напишите честно, даже если это кажется мечтой', placeholder: 'Например: открыть свою мастерскую, стать психологом, путешествовать и снимать фильмы…' },
+    now('wish', 'R', 'Я хочу, чтобы работа давала видимый результат моих рук'), now('wish', 'I', 'Я хочу, чтобы работа позволяла узнавать и открывать новое'),
+    now('wish', 'A', 'Я хочу, чтобы работа давала свободу самовыражения'), now('wish', 'S', 'Я хочу, чтобы работа помогала людям'),
+    now('wish', 'E', 'Я хочу, чтобы работа приносила хороший доход и влияние'), now('wish', 'C', 'Я хочу, чтобы работа была стабильной и понятной')
+  ];
+  var NOW_SCALE = [['Да', 2], ['Частично', 1], ['Нет', 0]];
+  // Слова в свободных ответах, по которым понятен тип занятия
+  var TYPE_WORDS = {
+    R: ['мастер', 'руками', 'строит', 'ремонт', 'стройк', 'дерев', 'столяр', 'резьб', 'кузн', 'огород', 'садов', 'на даче', 'рыбал', 'охот', 'поход', 'спорт', 'бегаю', 'пробеж', 'лошад', 'олен', 'собак', 'животн', 'готов', 'кулинар', 'повар', 'шить', 'шью', 'кож', 'мех', 'техник', 'машин', 'автомоб', 'природ', 'лес', 'тайг', 'массаж', 'фитнес', 'тренер', 'йог'],
+    I: ['изуча', 'исследов', 'наук', 'учён', 'чита', 'книг', 'психолог', 'астролог', 'истори', 'программ', 'компьют', 'математ', 'физик', 'хими', 'биолог', 'медицин', 'врач', 'трав', 'анализ', 'головолом', 'шахмат', 'эзотер', 'философ', 'космос', 'звёзд', 'звезд'],
+    A: ['рису', 'рисов', 'живопис', 'художе', 'музык', 'пою', 'петь', 'пение', 'песн', 'танц', 'театр', 'кино', 'фильм', 'фото', 'видео', 'снима', 'пишу', 'писат', 'стих', 'дизайн', 'вяз', 'вышив', 'рукодел', 'творч', 'украшен', 'бисер', 'блог', 'хомус', 'олонхо', 'тойук', 'осуохай'],
+    S: ['помога', 'помощ', 'детьми', 'детей', 'детск', 'ребён', 'ребен', 'учит', 'учу', 'преподав', 'педагог', 'воспит', 'психолог', 'консульт', 'волонт', 'забот', 'лечи', 'целит', 'наставн', 'коуч', 'общен', 'общаюс', 'людьми', 'людям', 'пожил', 'ретрит'],
+    E: ['бизнес', 'своё дело', 'свое дело', 'предприним', 'продаж', 'продава', 'торгов', 'заработ', 'деньг', 'организ', 'руковод', 'лидер', 'управл', 'проект', 'мероприят', 'блогер', 'маркет', 'туризм', 'путешеств', 'политик', 'команд'],
+    C: ['порядок', 'планир', 'счита', 'учёт', 'бухгалт', 'финанс', 'документ', 'архив', 'коллекц', 'таблиц', 'экономи', 'логист', 'администр']
+  };
+  function textTypes(t) {
+    t = String(t || '').toLowerCase();
+    return Object.keys(TYPE_WORDS).filter(function (k) { return TYPE_WORDS[k].some(function (w) { return t.indexOf(w) >= 0; }); });
+  }
+  var GENERIC = ['специалист', 'руководитель', 'работающий', 'менеджер', 'владелец', 'изделий', 'практик'];
+  // Профессия совпадает с желанием, если в ответе есть основа слова из её названия
+  function wordsMatch(text, name) {
+    text = String(text || '').toLowerCase(); if (!text) return false;
+    return name.toLowerCase().split(/[^а-яёһөүҥҕa-z]+/).some(function (w) { return w.length >= 5 && GENERIC.indexOf(w) < 0 && text.indexOf(w.slice(0, Math.max(5, w.length - 3))) >= 0; });
+  }
   var Q_ARCH = (DIAG.ARCH_QS || []).map(function (q) { return { set: 'arch', text: q.text, opts: q.opts }; });
   var BLOCKS = [
     { title: 'Психологический портрет', lead: 'Тест «Большая пятёрка». Насколько это про вас?', qs: Q_BIG5, scale: LIKERT },
     { title: 'Детство — ключ', lead: 'Вспомните себя до 12 лет: чем вы жили, когда никто не заставлял', qs: Q_CHILD, scale: CHILD_SCALE },
     { title: 'Профориентация', lead: 'Как вам такое занятие? Не думайте о зарплате и образовании', qs: Q_RIASEC, scale: INTEREST },
     { title: 'Архетипы Юнга', lead: 'Выберите вариант, который ближе', qs: Q_ARCH },
-    { title: 'Род и дар', lead: 'Несколько вопросов о вашем роде и особых способностях', qs: Q_LINE, scale: LINE_SCALE }
+    { title: 'Род и дар', lead: 'Несколько вопросов о вашем роде и особых способностях', qs: Q_LINE, scale: LINE_SCALE },
+    { title: 'Вы сейчас', lead: 'Нынешние увлечения, образование, семья, способности и ваши желания — на них разбор опирается больше всего', qs: Q_NOW, scale: NOW_SCALE }
   ];
+  var TOTAL_V1 = Q_BIG5.length + Q_CHILD.length + Q_RIASEC.length + Q_ARCH.length, TOTAL_V2 = TOTAL_V1 + Q_LINE.length;
   var FLAT = [];
   BLOCKS.forEach(function (b, bi) { b.qs.forEach(function (q) { FLAT.push({ b: bi, q: q }); }); });
   var TOTAL = FLAT.length;
 
   // ---------- Состояние ----------
-  var state = { form: null, answers: [], step: 0, v: 2 };
+  var state = { form: null, answers: [], step: 0, v: 3 };
   function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
   function load() {
     try { var s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.answers) state = s; } catch (e) {}
-    // Кто прошёл тест до появления блока «Род и дар», сразу видит свой разбор, без новых вопросов
-    if (!state.v && state.step >= TOTAL - Q_LINE.length) state.step = TOTAL;
-    state.v = 2;
+    // Кто прошёл тест до появления новых блоков, сразу видит свой разбор, без новых вопросов
+    if ((!state.v && state.step >= TOTAL_V1) || (state.v === 2 && state.step >= TOTAL_V2)) state.step = TOTAL;
+    state.v = 3;
   }
   // Код открывает только тот разбор, для которого его ввели (дата, время, место, пол)
   function reportKey() { var f = state.form; return [f.date, f.time, f.city, f.gender].join('|'); }
@@ -308,7 +352,7 @@
       return swap(progress() +
         '<p class="diag-kicker"><span>/' + (item.b + 1) + ' ' + esc(b.title) + '</span><span>Вопрос ' + (state.step + 1) + ' из ' + TOTAL + '</span></p>' +
         '<h3 class="diag-q">' + esc(q.text) + '</h3><label class="astro-sr" for="as-child">Ваш ответ</label>' +
-        '<textarea id="as-child" class="astro-textarea" rows="4" maxlength="400" placeholder="Например: рисовала часами, собирала травы с бабушкой, устраивала концерты…">' + esc(typeof cur === 'string' ? cur : '') + '</textarea>' +
+        '<textarea id="as-child" class="astro-textarea" rows="4" maxlength="400" placeholder="' + esc(q.placeholder || '') + '">' + esc(typeof cur === 'string' ? cur : '') + '</textarea>' +
         '<div class="diag-actions"><button type="button" class="btn btn-lime">Дальше</button></div>' +
         (state.step > 0 ? '<button type="button" class="diag-back">← Назад</button>' : ''),
         function (card) {
@@ -340,21 +384,33 @@
 
   // ---------- Шаг 3: расчёт ----------
   function psych() {
-    var big = { E: 0, A: 0, C: 0, N: 0, O: 0 }, rs = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, child = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, childText = '', line = 0, arch = (DIAG.ARCH || []).map(function () { return 0; });
+    var big = { E: 0, A: 0, C: 0, N: 0, O: 0 }, rs = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, child = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, childText = '', line = 0, nowT = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, wishT = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }, nowText = '', wishText = '', edu = null, family = null, raise = null, arch = (DIAG.ARCH || []).map(function () { return 0; });
     FLAT.forEach(function (it, i) {
       var a = state.answers[i]; if (a === undefined || a === null) return;
       var q = it.q;
       if (q.set === 'childText') { childText = String(a); return; }
       if (q.set === 'line') { if (a === 2) line++; return; }
-      if (q.set === 'child') { child[q.t] += a; rs[q.t] += a * 1.5; return; } // детство весит в полтора раза больше
+      if (q.set === 'child') { child[q.t] += a; rs[q.t] += a * 0.5; return; } // детство — подсказка, весит меньше нынешнего
+      if (q.set === 'nowText') { nowText = String(a); return; }
+      if (q.set === 'wishText') { wishText = String(a); return; }
+      if (q.set === 'now') { nowT[q.t] += a * 2; rs[q.t] += a * 2; return; }
+      if (q.set === 'skill') { nowT[q.t] += a * 1.5; rs[q.t] += a * 1.5; return; }
+      if (q.set === 'wish') { wishT[q.t] += a * 2; rs[q.t] += a * 2; return; } // желания человека не игнорируем
+      if (q.set === 'edu') { edu = a; q.types[a].split('').forEach(function (t) { rs[t] += 2; }); return; }
+      if (q.set === 'family') { family = a; rs[q.types[a]] += 1; return; }
+      if (q.set === 'raise') { raise = a; rs[q.types[a]] += 1; return; }
       if (q.set === 'big5') big[q.f] += q.rev ? 4 - a : a;
       else if (q.set === 'riasec') rs[q.t] += a;
       else arch[a] += 1;
     });
+    textTypes(nowText).forEach(function (t) { nowT[t] += 2; rs[t] += 2; });
+    textTypes(wishText).forEach(function (t) { wishT[t] += 2; rs[t] += 2; });
+    function top(o) { var k = Object.keys(o).sort(function (a, b) { return o[b] - o[a]; })[0]; return o[k] > 0 ? k : null; }
     var code = Object.keys(rs).sort(function (a, b) { return rs[b] - rs[a]; });
     var archRank = arch.map(function (v, i) { return i; }).sort(function (a, b) { return arch[b] - arch[a]; });
     var childCode = Object.keys(child).sort(function (a, b) { return child[b] - child[a]; });
-    return { big: big, rs: rs, code: code, arch: archRank, child: child, childCode: childCode, childText: childText, line: line };
+    return { big: big, rs: rs, code: code, arch: archRank, child: child, childCode: childCode, childText: childText, line: line,
+      nowText: nowText, wishText: wishText, nowTop: top(nowT), wishTop: top(wishT), edu: edu, family: family, raise: raise };
   }
 
   function professions(p, chart) {
@@ -364,17 +420,32 @@
       var rank = p.code.indexOf(j[0]), sc = rank < 3 ? (p.rs[j[0]] / max) * 3 - rank * 0.3 : 0, why = [];
       if (rank < 3) why.push('профориентация: ' + RIASEC[j[0]][0]);
       if (j[1] === bz.wealthEl) { sc += 1; why.push('стихия денег по бацзы: ' + EL[j[1]]); }
-      if (j[0] === p.childCode[0] && p.child[j[0]] > 0) { sc += 0.7; why.push('ключ из детства'); }
+      var wish = wordsMatch(p.wishText, j[2]), hobby = wordsMatch(p.nowText, j[2]);
+      if (wish) { sc += 2; why.unshift('вы сами этого хотите'); }
+      if (hobby) { sc += 1; why.push('ваше увлечение'); }
+      if (j[0] === p.nowTop) { sc += 0.7; why.push('нынешние увлечения и способности'); }
+      if (j[0] === p.wishTop) { sc += 0.7; why.push('ваши желания'); }
+      if (p.edu !== null && EDU_OPTS[p.edu][1].indexOf(j[0]) >= 0) { sc += 0.4; why.push('образование'); }
+      if ((p.family !== null && FAMILY_OPTS[p.family][1] === j[0]) || (p.raise !== null && RAISE_OPTS[p.raise][1] === j[0])) { sc += 0.3; why.push('семья и воспитание'); }
+      if (j[0] === p.childCode[0] && p.child[j[0]] > 0) { sc += 0.3; why.push('подсказка из детства'); }
       if (archTypes.indexOf(j[0]) >= 0) { sc += 0.6; why.push('архетип: ' + DIAG.ARCH[p.arch[0]].name); }
       if (mcEl && MC_TYPES[mcEl].indexOf(j[0]) >= 0) { sc += 0.5; why.push('MC в знаке ' + SIGNS[Math.floor(chart.angles.mc / 30)]); }
-      return { name: j[2], type: j[0], el: j[1], score: sc, why: why };
-    }).filter(function (j) { return p.code.indexOf(j.type) < 3; }).sort(function (a, b) { return b.score - a.score; });
+      return { name: j[2], type: j[0], el: j[1], score: sc, why: why, wish: wish };
+    }).filter(function (j) { return p.code.indexOf(j.type) < 3 || j.wish; }).sort(function (a, b) { return b.score - a.score; });
+    // Профессия, которую человек назвал сам, всегда остаётся в списке
+    var wished = list.filter(function (j) { return j.wish; }).slice(0, 2);
     // Главный тип профориентации всегда представлен хотя бы двумя профессиями
     var top = list.slice(0, 6), main = list.filter(function (j) { return j.type === p.code[0]; });
     while (top.filter(function (j) { return j.type === p.code[0]; }).length < 2 && main.length) {
       var add = main.filter(function (j) { return top.indexOf(j) < 0; })[0]; if (!add) break;
       top.splice(top.length - 1, 1); top.splice(1, 0, add);
     }
+    wished.forEach(function (w) {
+      if (top.indexOf(w) >= 0) return;
+      for (var i = top.length - 1; i >= 0; i--) if (!top[i].wish) { top.splice(i, 1); break; }
+      top.splice(0, 0, w);
+    });
+    top.sort(function (a, b) { return b.score - a.score; });
     // Признаки родовой линии поднимают профессии рода сразу за главной
     if (p.line >= LINE_MIN) top = top.slice(0, 1).concat(LINE_JOBS.map(function (n) { return { name: n, type: 'line', score: 0, why: ['признаки родовой линии'] }; }), top.slice(1, 5));
     return top;
@@ -467,7 +538,7 @@
     var f = state.form, c = CITIES[f.city], dp = f.date.split('-').map(Number), tp = (f.time || '12:00').split(':').map(Number);
     var acgCities = CITIES.filter(function (x) { return x[6]; });
     var chart = S.chart({ y: dp[0], m: dp[1], d: dp[2], h: tp[0], mi: tp[1], hasTime: !f.noTime, lat: c[3], lon: c[4], tz: c[5], gender: f.gender, cities: acgCities });
-    var p = psych(), jobs = professions(p, chart), bz = chart.bazi, ved = chart.vedic, open = unlocked(), test = open ? 0 : freeTest();
+    var p = psych(), jobs = professions(p, chart), wishJob = jobs.filter(function (j) { return j.wish; })[0], bz = chart.bazi, ved = chart.vedic, open = unlocked(), test = open ? 0 : freeTest();
     if (test) open = true;
     var P = {}; chart.planets.forEach(function (x) { P[x.key] = x; });
     var birth = chart.utc.ms, now = Date.now();
@@ -492,7 +563,8 @@
     function cityList(arr) { return arr && arr.length ? arr.map(function (x) { return cityName(x.city); }).join(', ') : '—'; }
     var summary = '<ul class="astro-summary">' +
       '<li><b>Кто вы.</b> Архетип <em>' + A1.name + '</em>, Солнце в знаке ' + sunS + (ascS ? ', Асцендент в знаке ' + ascS : '') + ', Хозяин дня в бацзы — ' + dmName + '. Самая сильная черта по тесту — ' + BIG5[trait][1] + '.</li>' +
-      (p.childText ? '<li><b>Ключ из детства.</b> «' + esc(p.childText) + '» — ' + (code3.indexOf(p.childCode[0]) >= 0 ? 'это совпадает с вашим взрослым кодом и подтверждает призвание.' : 'верните это в жизнь: детская радость подсказывает, где ваша сила.') + '</li>' : '') +
+      (p.wishText ? '<li><b>Ваше желание.</b> «' + esc(p.wishText) + '» — ' + (wishJob ? 'оно учтено: в списке есть «' + wishJob.name.toLowerCase() + '».' : 'это главный ориентир: соедините его с профессиями из списка, а на личном приёме шаман поможет найти путь.') + '</li>' : '') +
+      (p.nowText ? '<li><b>Увлечения сейчас.</b> «' + esc(p.nowText) + '»' + (p.childText ? ', а подсказка из детства — «' + esc(p.childText) + '»' : '') + '.</li>' : p.childText ? '<li><b>Подсказка из детства.</b> «' + esc(p.childText) + '» — ' + (code3.indexOf(p.childCode[0]) >= 0 ? 'это совпадает с вашим взрослым кодом и подтверждает призвание.' : 'верните это в жизнь: детская радость подсказывает, где ваша сила.') + '</li>' : '') +
       '<li><b>Дело.</b> Ваш код профориентации — ' + code3.map(function (k) { return RIASEC[k][0]; }).join(' · ') + '. Лучше всего подходит: ' + jobs.slice(0, 3).map(function (j) { return j.name.toLowerCase(); }).join('; ') + '.</li>' +
       '<li><b>Деньги.</b> Вы — ' + EL[bz.dmEl] + ', ваша стихия денег — ' + EL[bz.wealthEl] + ': ' + ACTIVITIES[bz.wealthEl].slice(0, 4).join(', ') + '. Талисман богатства — ' + BRANCH_RU[bz.wealthAnimal] + (moneyYears.length ? ', удачные годы для денег: ' + moneyYears.join(', ') : '') + '. Юпитер (удача) в знаке ' + SIGNS[P.Jupiter.sign] + (P.Jupiter.house ? ', ' + P.Jupiter.house + ' дом — ' + HOUSE[P.Jupiter.house - 1] : '') + '.</li>' +
       '<li><b>Любовь.</b> Венера в знаке ' + SIGNS[P.Venus.sign] + ': вы любите ' + SIGN_STYLE[P.Venus.sign] + (chart.angles ? '. Партнёр по Десценденту — ' + SIGN_QUALITY[(Math.floor(chart.angles.asc / 30) + 6) % 12] : '') + (bz.stars.peach ? '. В карте есть Персиковый цветок — сильное обаяние' : '') + '.</li>' +
@@ -516,19 +588,32 @@
     // --- Профориентация
     var maxR = Math.max.apply(null, Object.keys(p.rs).map(function (k) { return p.rs[k]; })) || 1;
     var childTop = p.childCode[0], childMatch = code3.indexOf(childTop) >= 0;
-    var childBlock = '<div class="astro-key"><p class="diag-small">Ключ из детства</p>' +
+    var nowParts = [];
+    if (p.nowTop) nowParts.push('Сейчас в ваших увлечениях и способностях ярче всего тип <b>' + RIASEC[p.nowTop][0] + '</b>' + (code3.indexOf(p.nowTop) >= 0 ? ' — он вошёл в ваш код.' : '.'));
+    if (p.wishTop) nowParts.push('Ваши желания ведут к типу <b>' + RIASEC[p.wishTop][0] + '</b>: ' + RIASEC[p.wishTop][1] + '.');
+    var roots = [];
+    if (p.edu !== null && EDU_OPTS[p.edu][1]) roots.push('образование (' + EDU_OPTS[p.edu][0].toLowerCase() + ')');
+    if (p.family !== null) roots.push('семья (' + FAMILY_OPTS[p.family][0].toLowerCase() + ')');
+    if (p.raise !== null) roots.push('воспитание (' + RAISE_OPTS[p.raise][0].toLowerCase() + ')');
+    if (roots.length) nowParts.push('Опора за плечами: ' + roots.join(', ') + '. Это тоже учтено в коде и в списке профессий.');
+    var nowBlock = (p.nowText || p.wishText || nowParts.length) ? '<div class="astro-key"><p class="diag-small">Вы сейчас</p>' +
+      (p.nowText ? '<p class="astro-quote">Увлечения: «' + esc(p.nowText) + '»</p>' : '') +
+      (p.wishText ? '<p class="astro-quote">Желание: «' + esc(p.wishText) + '»</p>' : '') +
+      (nowParts.length ? '<p>' + nowParts.join(' ') + '</p>' : '') +
+      (p.wishText ? '<p>' + (wishJob ? 'Ваше желание не осталось без внимания: профессия «' + wishJob.name.toLowerCase() + '» стоит в списке.' : 'Прямого совпадения с профессиями из списка нет, но желание важнее любой схемы: ищите, как соединить его с вашим кодом. Это хорошая тема для личного приёма.') + '</p>' : '') + '</div>' : '';
+    var childBlock = '<div class="astro-key"><p class="diag-small">Подсказка из детства</p>' +
       (p.childText ? '<p class="astro-quote">«' + esc(p.childText) + '»</p>' : '') +
       (p.child[childTop] > 0 ? '<p>В детстве ярче всего проявлялся тип <b>' + RIASEC[childTop][0] + '</b>: ' + RIASEC[childTop][1] + '. ' +
-        (childMatch ? 'Он совпадает с вашим взрослым кодом — значит, призвание пронесено через всю жизнь и его стоит сделать основой дела.' : 'Во взрослом коде его нет на первых местах — скорее всего, эту радость пришлось отложить. Верните её хотя бы как часть работы или хобби: там спрятана ваша сила.') + '</p>'
-        : '<p>Детские увлечения не проявились ярко — опирайтесь на взрослый код профориентации.</p>') + '</div>';
+        (childMatch ? 'Он совпадает с вашим взрослым кодом — значит, призвание пронесено через всю жизнь и его стоит сделать основой дела.' : 'Во взрослом коде его нет на первых местах — скорее всего, эту радость пришлось отложить. Верните её хотя бы как хобби: это подсказка, где спрятана ваша сила.') + '</p>'
+        : '<p>Детские увлечения не проявились ярко — опирайтесь на нынешние увлечения и желания.</p>') + '</div>';
     var lineText = 'Есть признаки родовой линии: вы ответили «да» на ' + p.line + ' из ' + Q_LINE.length + ' вопросов о роде и даре. Это стоит обсудить с шаманом на личном приёме: он посмотрит, что передаётся в вашем роду и как с этим обращаться.';
     var lineBlock = p.line >= LINE_MIN ? '<div class="astro-key"><p class="diag-small">Родовая линия</p><p>' + lineText + '</p></div>' : '';
     var riBars = '<ul class="diag-bars">' + p.code.map(function (k) { return '<li><span>' + RIASEC[k][0] + '</span><b><i style="width:' + Math.round(p.rs[k] / maxR * 100) + '%"></i></b></li>'; }).join('') + '</ul>';
     var jobsList = '<ol class="astro-jobs">' + jobs.map(function (j) { return '<li><b>' + j.name + '</b><span>' + j.why.join(' · ') + '</span></li>'; }).join('') + '</ol>';
     var proSec = sec(2, 'Профориентация',
       '<div class="diag-two"><div><p class="diag-big">' + code3.map(function (k) { return RIASEC[k][0]; }).join(' · ') + '</p><p>Главное: ' + RIASEC[code3[0]][1] + '; дополнительно — ' + RIASEC[code3[1]][1] + '.</p>' +
-      childBlock + lineBlock + '<p class="diag-small">Профессии, где сходятся все методы</p>' + jobsList + '</div><div>' + riBars +
-      '<p class="diag-note" style="margin-top:16px">Список собран так, чтобы не противоречить ни тесту, ни карте: в основе — ваш код профориентации, детские увлечения весят в полтора раза больше, а стихия денег по бацзы, архетип и MC поднимают выше совпадающие профессии.</p></div></div>');
+      nowBlock + childBlock + lineBlock + '<p class="diag-small">Профессии, где сходятся все методы</p>' + jobsList + '</div><div>' + riBars +
+      '<p class="diag-note" style="margin-top:16px">Список собран так, чтобы не противоречить ни тесту, ни карте: в основе — ваши нынешние увлечения, способности и желания, тест интересов, образование, семья и воспитание; детские увлечения дают подсказку, а стихия денег по бацзы, архетип и MC поднимают выше совпадающие профессии. Профессию, которую вы назвали сами, разбор не пропускает.</p></div></div>');
 
     // --- Западная астрология
     var rows = chart.planets.map(function (x) {
@@ -670,14 +755,14 @@
       '<p class="diag-small">Хозяин дня в бацзы</p><p class="diag-mid">' + dmName + '</p><p>' + DM_TEXT[dm] + '.</p></div>' +
       '<div><p class="diag-small">Солнце</p><p class="diag-mid">' + sunS + '</p><p>Ваше ядро и воля проявляются ' + SIGN_STYLE[P.Sun.sign] + '.</p>' +
       '<p class="diag-small">Ведущий тип по профориентации</p><p class="diag-mid">' + RIASEC[code3[0]][0] + '</p><p>' + cap(RIASEC[code3[0]][1]) + '.' +
-      (p.childText ? ' А в детстве вы любили: «' + esc(p.childText) + '». Как это связано с призванием — в полном разборе.' : '') + '</p></div></div>' +
+      (p.nowText ? ' Сейчас вы увлекаетесь: «' + esc(p.nowText) + '».' : '') + (p.childText ? ' А в детстве любили: «' + esc(p.childText) + '».' : '') + (p.nowText || p.childText ? ' Как это связано с призванием — в полном разборе.' : '') + '</p></div></div>' +
       '<p class="diag-small" style="margin-top:28px">Что ещё мы нашли в вашей карте</p><ul class="astro-hooks">' + hooks.map(function (h) { return '<li>' + h + '</li>'; }).join('') + '</ul>');
 
     var disclaimer = '<p class="astro-disclaimer">Этот разбор даёт возможности для изучения себя и раскрытия своих потенциалов. Автор тестирования не даёт гарантий, а лишь делится инструментами, которыми пользуется сам и результаты которых увидел на себе.</p>';
 
     var waMsg = 'Здравствуйте! Хочу полный астрологический разбор за ' + PRICE + '.\nИмя: ' + (f.name || '—') + '\nДата: ' + f.date + (f.noTime ? ' (время неизвестно)' : ', ' + f.time) + '\nМесто: ' + cityName(c);
     var gate = '<div class="astro-gate"><p class="diag-small">Полный разбор — ' + PRICE + '</p><h4>Откройте полный разбор за ' + PRICE + '</h4>' +
-      '<ul class="astro-includes"><li><sup>/1</sup>Психологический портрет и архетипы</li><li><sup>/2</sup>Профориентация с ключом из детства и 6 профессий</li><li><sup>/3</sup>Западная карта: планеты, дома, аспекты, узлы, Лилит</li><li><sup>/4</sup>Ведическая карта и большие периоды-даши</li><li><sup>/5</sup>Бацзы: стихия денег, такты удачи, лучшие годы</li><li><sup>/6</sup>Лучшие города для карьеры, денег, любви и жизни</li><li><sup>/7</sup>Периоды жизни по десятилетиям</li><li><sup>/8</sup>Рекомендации и <sup>/9</sup>итог</li></ul>' +
+      '<ul class="astro-includes"><li><sup>/1</sup>Психологический портрет и архетипы</li><li><sup>/2</sup>Профориентация: увлечения, способности, желания, образование и подсказка из детства</li><li><sup>/3</sup>Западная карта: планеты, дома, аспекты, узлы, Лилит</li><li><sup>/4</sup>Ведическая карта и большие периоды-даши</li><li><sup>/5</sup>Бацзы: стихия денег, такты удачи, лучшие годы</li><li><sup>/6</sup>Лучшие города для карьеры, денег, любви и жизни</li><li><sup>/7</sup>Периоды жизни по десятилетиям</li><li><sup>/8</sup>Рекомендации и <sup>/9</sup>итог</li></ul>' +
       '<p>Чтобы получить код доступа, напишите шаману.</p>' +
       '<div class="diag-actions"><a class="btn btn-lime" target="_blank" rel="noopener" href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waMsg) + '">Оплатить ' + PRICE + ' и получить код</a></div>' +
       '<form class="astro-code"><label for="as-code">Код доступа</label><div><input id="as-code" type="text" placeholder="UO-XXXX-XXXX" autocomplete="off"><button class="btn btn-ghost" type="submit">Открыть</button></div><p class="diag-error" hidden>Код не подошёл. Проверьте написание или напишите шаману.</p></form></div>';
@@ -694,7 +779,7 @@
       '<button class="btn btn-ghost" type="button" data-act="pdf">Скачать PDF</button>' +
       '<button class="btn btn-ghost" type="button" data-act="restart">Новый разбор</button></div>',
       function (card) {
-        card.querySelector('[data-act="restart"]').addEventListener('click', function () { state = { form: state.form, answers: [], step: 0, v: 2 }; save(); renderForm(); });
+        card.querySelector('[data-act="restart"]').addEventListener('click', function () { state = { form: state.form, answers: [], step: 0, v: 3 }; save(); renderForm(); });
         card.querySelector('[data-act="share"]').addEventListener('click', function (e) {
           if (window.SakhaPDF) window.SakhaPDF.share(card, open ? 'Астрологический разбор' : 'Астрологический разбор — первый взгляд', f.name, e.currentTarget, WHATSAPP,
             'Здравствуйте! Я получил(а) астрологический разбор на сайте и хочу записаться на личный приём-консультацию.\nИмя: ' + (f.name || '—') + '\nДата: ' + f.date.split('-').reverse().join('.') + (f.noTime ? ' (время неизвестно)' : ', ' + f.time) + '\nМесто: ' + cityName(c));
