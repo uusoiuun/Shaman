@@ -1,10 +1,11 @@
 // Анкета «Отбор помощника»: вопросы о себе, даре и опыте, тест на эго.
-// Ответы уходят в Google (Apps Script: таблица + письмо), человек результат теста не видит.
+// Ответы уходят шаману в WhatsApp готовым сообщением. Результат теста человек не видит:
+// в сообщении он записан как «Код анкеты: Э<балл>», где балл 0–100 — сила эго.
 (function () {
   var root = document.getElementById('helper');
   if (!root) return;
 
-  // Адрес веб-приложения Google Apps Script. Пока пусто — анкету можно отправить только через WhatsApp
+  // Адрес веб-приложения Google Apps Script (таблица + письмо). Пусто — анкета уходит через WhatsApp
   var HELPER_URL = '';
   var WHATSAPP = '79148286969', DRAFT = 'sakha-helper-draft';
 
@@ -114,22 +115,24 @@
 
   // Эго: 0–100, чем выше, тем сильнее эго
   function egoResult(d) {
-    var sum = 0, max = 0, lines = [];
+    var sum = 0, max = 0, lines = [], short = [];
     EGO.forEach(function (q, i) {
       var a = d['ego' + i]; max += 4;
       if (a === undefined) return;
       sum += q[1] ? 4 - a : a;
       lines.push(q[0] + ' — ' + AGREE[a][0]);
+      short.push((i + 1) + '. ' + q[0] + ': ' + AGREE[a][0]);
     });
     EGO_CASES.forEach(function (c, i) {
       var a = d['case' + i]; max += 4;
       if (a === undefined) return;
       sum += c[1][a][1];
       lines.push(c[0] + ' — ' + c[1][a][0]);
+      short.push((EGO.length + i + 1) + '. ' + c[0].split('.')[0] + ': ' + c[1][a][0]);
     });
     var score = Math.round(sum / max * 100);
     var level = score <= 35 ? 'спокойное эго, готовность служить' : score <= 55 ? 'умеренное эго' : score <= 70 ? 'заметное эго, стоит присмотреться' : 'сильное эго';
-    return { score: score, level: level, answers: lines };
+    return { score: score, level: level, answers: lines, short: short };
   }
   function pick(list, i) { return i === undefined ? '' : (Array.isArray(list[i]) ? list[i][0] : list[i]); }
   function summary(d, ego) {
@@ -141,7 +144,7 @@
       rod: pick(['Да', 'Говорят, что были', 'Нет', 'Не знаю'], d.rod),
       why: d.why, benefit: d.benefit, skills: (d.skills || []).map(function (i) { return SKILLS[i]; }).join(', '),
       time: pick(['Несколько часов в месяц', 'Каждые выходные', 'Несколько дней в неделю', 'Готов(а) на выезды и ретриты'], d.time),
-      egoScore: ego.score, egoLevel: ego.level, egoAnswers: ego.answers.join('\n')
+      egoScore: ego.score, egoLevel: ego.level, egoAnswers: ego.answers.join('\n'), egoShort: ego.short.join('\n')
     };
   }
   function waText(s) {
@@ -149,14 +152,14 @@
       '\nЗанятие: ' + (s.work || '—') + '\nЯкутский язык: ' + (s.yakut || '—') +
       '\nДар: ' + (s.gift || '—') + (s.giftText ? ' — ' + s.giftText : '') + '\nСверхъестественное: ' + (s.seen || '—') + (s.seenText ? ' — ' + s.seenText : '') +
       '\nРод: ' + (s.rod || '—') + '\nПочему хочу помогать: ' + s.why + '\nПольза: ' + s.benefit + '\nНавыки: ' + (s.skills || '—') + '\nВремя: ' + (s.time || '—') +
-      '\nТест на эго: ' + s.egoScore + ' из 100 (' + s.egoLevel + ')';
+      '\n\nОтветы теста:\n' + s.egoShort + '\n\nКод анкеты: Э' + s.egoScore;
   }
   function finish(ok, s) {
     form.hidden = true; done.hidden = false;
     try { localStorage.removeItem(DRAFT); } catch (e) {}
     done.innerHTML = ok
       ? '<h3 class="hp-sec">Анкета отправлена</h3><p>Спасибо! Шаман прочитает её и свяжется с вами по телефону или в WhatsApp.</p>'
-      : '<h3 class="hp-sec">Почти готово</h3><p>Нажмите кнопку ниже: откроется WhatsApp с вашей анкетой, останется только отправить сообщение.</p>' +
+      : '<h3 class="hp-sec">Осталось отправить</h3><p>Открылся WhatsApp с вашей анкетой — нажмите «Отправить». Если WhatsApp не открылся, нажмите кнопку ниже. Шаман прочитает анкету и свяжется с вами.</p>' +
         '<div class="diag-actions"><a class="btn btn-lime" target="_blank" rel="noopener" href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waText(s)) + '">Отправить в WhatsApp</a></div>';
     root.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -174,7 +177,7 @@
     if (missing.length) { err.textContent = 'Заполните: ' + missing.join(', ') + '.'; err.hidden = false; return; }
     err.hidden = true;
     var s = summary(d, egoResult(d)), btn = form.querySelector('[type=submit]');
-    if (!HELPER_URL) return finish(false, s);
+    if (!HELPER_URL) { window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waText(s)), '_blank', 'noopener'); return finish(false, s); }
     btn.disabled = true; btn.textContent = 'Отправляю…';
     fetch(HELPER_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(s) })
       .then(function () { finish(true, s); })
