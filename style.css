@@ -476,7 +476,7 @@ body.no-scroll { overflow: hidden; }
 .footer-place { grid-column: 1 / -1; margin: 0; font-size: .75rem; }
 
 /* Адаптивность */
-@media (max-width: 1279px) {
+@media (max-width: 1439px) {
   .menu-toggle { display: block; }
   .nav {
     display: none; position: absolute; top: 64px; left: 0; right: 0;
@@ -530,4 +530,39 @@ body.no-scroll { overflow: hidden; }
   .diag-card, .diag-card.leaving { animation: none; }
   .js .map-old, .js .map-title, .js .map-pin, .js .map-text { clip-path: none; opacity: 1; transform: none; }
   .map-pin::after, .map.is-in .map-pan, .quiz-backdrop, .quiz-window, .quiz-card, .quiz-card.leaving { animation: none; }
+}
+
+/* Анкета помощника */
+.hp-form { display: grid; gap: 8px; max-width: 760px; }
+.hp-sec { font-size: 1.3rem; text-transform: uppercase; letter-spacing: .02em; color: var(--frost); margin: 40px 0 4px; }
+.hp-sec:first-child { margin-top: 0; }
+.hp-sec sup { color: var(--moss); font-size: .7rem; margin-right: 8px; font-weight: 400; }
+.hp-lead { color: var(--dim); margin: 0 0 8px; }
+.hp-form > label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: var(--moss); margin-top: 14px; }
+.hp-form input[type=text], .hp-form input[type=tel], .hp-form input[type=number] {
+  font: inherit; font-size: 1.05rem; color: var(--frost); background: transparent; color-scheme: dark;
+  border: 0; border-bottom: 1px solid var(--line); padding: 10px 0; border-radius: 0;
+}
+.hp-form textarea { font: inherit; font-size: 1rem; color: var(--frost); background: transparent; border: 1px solid var(--line); padding: 12px; border-radius: 0; resize: vertical; }
+.hp-form input:focus, .hp-form textarea:focus { outline: none; border-color: var(--moss); }
+.hp-choice, .hp-scale { border: 0; padding: 0; margin: 18px 0 0; min-width: 0; }
+.hp-choice legend, .hp-scale legend { color: var(--frost); font-weight: 500; margin-bottom: 10px; padding: 0; line-height: 1.4; }
+.hp-choice { display: flex; flex-wrap: wrap; gap: 8px; }
+.hp-choice legend { width: 100%; }
+.hp-scale div { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.hp-choice label, .hp-scale label { cursor: pointer; }
+.hp-choice input, .hp-scale input { position: absolute; opacity: 0; pointer-events: none; }
+.hp-choice span, .hp-scale span { display: block; border: 1px solid var(--line); padding: 9px 12px; font-size: .88rem; line-height: 1.3; color: var(--dim); transition: border-color .2s, color .2s, background .2s; }
+.hp-scale span { text-align: center; padding: 9px 4px; font-size: .78rem; height: 100%; }
+.hp-choice input:checked + span, .hp-scale input:checked + span { border-color: var(--moss); color: var(--ink); background: var(--moss); }
+.hp-choice input:focus-visible + span, .hp-scale input:focus-visible + span { outline: 2px solid var(--moss); outline-offset: 2px; }
+.hp-agree { display: flex; gap: 10px; align-items: flex-start; margin-top: 28px; font-size: .9rem; line-height: 1.45; cursor: pointer; }
+.hp-agree input { margin-top: 3px; width: 18px; height: 18px; flex: none; accent-color: var(--moss); }
+.hp-agree a { color: inherit; text-decoration: underline; }
+.hp-done p { max-width: 620px; }
+.footer-legal { font-size: .8rem; opacity: .7; }
+.footer-legal a { color: inherit; }
+@media (max-width: 600px) {
+  .hp-scale div { gap: 4px; }
+  .hp-scale span { font-size: .72rem; padding: 9px 2px; }
 }

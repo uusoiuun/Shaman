@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,700;0,800;1,400&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202610203">
+  <link rel="stylesheet" href="style.css?v=202610212">
 </head>
 <body>
   <header class="site-header">
@@ -31,6 +31,7 @@
         <a href="#magazin" data-tab="magazin">Магазин</a>
         <a href="#diagnostika" data-tab="diagnostika">Диагностика</a>
         <a href="#astrorazbor" data-tab="astrorazbor">Астроразбор</a>
+        <a href="#pomoshnik" data-tab="pomoshnik">Отбор помощника</a>
         <a href="#kontakty" data-tab="kontakty">Контакты</a>
       </nav>
     </div>
@@ -351,6 +352,20 @@
       </div>
     </section>
 
+    <!-- 9. ОТБОР ПОМОЩНИКА (анкета и тест на эго в helper.js) -->
+    <section id="pomoshnik" class="tab-panel" data-panel="pomoshnik" hidden>
+      <div class="container page">
+        <p class="eyebrow">/9</p>
+        <h1>Отбор помощника</h1>
+        <p class="page-lead">Анкета для тех, кто хочет помогать шаману · 15 минут</p>
+        <div class="diag-intro">
+          <p>Шаман ищет помощников на обряды, ретриты и приёмы. Расскажите о себе, о своём опыте и о том, почему вам это близко. В конце — короткий тест.</p>
+          <p>Анкету читает сам шаман. Если вы подойдёте, с вами свяжутся по телефону или в WhatsApp.</p>
+        </div>
+        <div id="helper" class="diag"></div>
+      </div>
+    </section>
+
     <!-- КОНТАКТЫ -->
     <section id="kontakty" class="tab-panel" data-panel="kontakty" hidden>
       <div class="container page">
@@ -393,15 +408,17 @@
         <a href="https://instagram.com/uus.oiuun" target="_blank" rel="noopener">@uus.oiuun</a>
       </div>
       <p class="footer-place">Потомственный якутский шаман · приём в г. Якутске и онлайн по всему миру</p>
+      <p class="footer-legal">ИП Семенова Ф. Н. · <a href="privacy.html">Политика конфиденциальности</a></p>
     </div>
   </footer>
 
-  <script src="script.js?v=202610203"></script>
-  <script src="diag.js?v=202610203"></script>
+  <script src="script.js?v=202610212"></script>
+  <script src="diag.js?v=202610212"></script>
   <script src="vendor/astronomy-2.1.19.min.js"></script>
-  <script src="cities.js?v=202610203"></script>
-  <script src="astro-calc.js?v=202610203"></script>
-  <script src="astro.js?v=202610203"></script>
-  <script src="pdf.js?v=202610203"></script>
+  <script src="cities.js?v=202610212"></script>
+  <script src="astro-calc.js?v=202610212"></script>
+  <script src="astro.js?v=202610212"></script>
+  <script src="pdf.js?v=202610212"></script>
+  <script src="helper.js?v=202610212"></script>
 </body>
 </html>
