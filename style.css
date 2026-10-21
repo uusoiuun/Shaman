@@ -482,6 +482,7 @@ body.no-scroll { overflow: hidden; }
     display: none; position: absolute; top: 64px; left: 0; right: 0;
     flex-direction: column; gap: 0; padding: 8px 32px 24px;
     background: var(--ink); border-bottom: 1px solid var(--line);
+    max-height: calc(100vh - 64px); max-height: calc(100dvh - 64px); overflow-y: auto; overscroll-behavior: contain;
   }
   .nav.open { display: flex; }
   .nav a { padding: 14px 0; font-size: .85rem; border-bottom: 1px solid var(--line); }

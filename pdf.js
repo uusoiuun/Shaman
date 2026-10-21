@@ -2,7 +2,7 @@
 // подгружается только по нажатию кнопки. Текст берётся из уже показанного на странице результата.
 (function () {
   var SITE = 'https://sakhashaman.pro';
-  var CONTACTS = 'WhatsApp 8 914 828-69-69  ·  uus.oyuun@yandex.ru  ·  Instagram @uus.oiuun  ·  sakhashaman.pro';
+  var CONTACTS = 'WhatsApp 8 914 828-69-69  ·  uus.oyuun@yandex.ru  ·  Instagram @uus.oyuun  ·  sakhashaman.pro';
   var INK = '#14141c', DIM = '#62677d', ACCENT = '#3f7d2b', LINE = '#d9dbe6';
   var loading = null;
 
@@ -130,7 +130,7 @@
     content.push({ text: 'Приём ведётся в г. Якутске и онлайн по всему миру.', style: 'p' });
     content.push({ text: [{ text: 'WhatsApp: ', bold: true }, { text: '8 914 828-69-69', link: 'https://wa.me/79148286969' }], style: 'p' });
     content.push({ text: [{ text: 'Почта: ', bold: true }, { text: 'uus.oyuun@yandex.ru', link: 'mailto:uus.oyuun@yandex.ru' }], style: 'p' });
-    content.push({ text: [{ text: 'Instagram: ', bold: true }, { text: '@uus.oiuun', link: 'https://instagram.com/uus.oiuun' }], style: 'p' });
+    content.push({ text: [{ text: 'Instagram: ', bold: true }, { text: '@uus.oyuun', link: 'https://instagram.com/uus.oyuun' }], style: 'p' });
     content.push({ text: [{ text: 'Сайт: ', bold: true }, { text: 'sakhashaman.pro', link: SITE, color: ACCENT }], style: 'p' });
     var d = new Date();
     return {
