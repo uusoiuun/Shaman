@@ -43,7 +43,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--moss); outline-
 }
 .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 24px; }
 .logo { color: var(--frost); text-decoration: none; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; font-size: .9rem; white-space: nowrap; }
-.nav { display: flex; gap: 26px; counter-reset: nav; }
+.nav { display: flex; gap: 20px; counter-reset: nav; }
 .nav a {
   color: var(--dim); text-decoration: none; font-size: .7rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .08em; padding: 6px 0; white-space: nowrap;
@@ -476,7 +476,7 @@ body.no-scroll { overflow: hidden; }
 .footer-place { grid-column: 1 / -1; margin: 0; font-size: .75rem; }
 
 /* Адаптивность */
-@media (max-width: 1439px) {
+@media (max-width: 1499px) {
   .menu-toggle { display: block; }
   .nav {
     display: none; position: absolute; top: 64px; left: 0; right: 0;
@@ -566,4 +566,19 @@ body.no-scroll { overflow: hidden; }
 @media (max-width: 600px) {
   .hp-scale div { gap: 4px; }
   .hp-scale span { font-size: .72rem; padding: 9px 2px; }
+}
+
+/* Обряд с афишей */
+.feature-poster { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 48px; align-items: start; }
+.feature-poster h2 { margin-bottom: .4em; }
+.poster { margin: 0; position: sticky; top: 88px; }
+.poster img { display: block; width: 100%; height: auto; }
+.sah { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
+.sah h3 { font-size: 1.3rem; text-transform: uppercase; color: var(--frost); margin: 0 0 12px; }
+.sah p { color: var(--dim); }
+.sah b { color: var(--frost); }
+.sah a { color: var(--moss); }
+@media (max-width: 860px) {
+  .feature-poster { grid-template-columns: 1fr; gap: 28px; }
+  .poster { position: static; max-width: 420px; }
 }
