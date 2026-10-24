@@ -582,3 +582,5 @@ body.no-scroll { overflow: hidden; }
   .feature-poster { grid-template-columns: 1fr; gap: 28px; }
   .poster { position: static; max-width: 420px; }
 }
+
+.shop-featured { margin-top: 40px; }
