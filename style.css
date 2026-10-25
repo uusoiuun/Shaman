@@ -584,5 +584,8 @@ body.no-scroll { overflow: hidden; }
 }
 
 .shop-featured { margin-top: 40px; }
-.shop-featured .price { font-size: 2rem; font-weight: 800; color: var(--frost); margin: 8px 0 4px; }
+.shop-featured .price, .shop-individual .price { font-size: 2rem; font-weight: 800; color: var(--frost); margin: 8px 0 4px; }
 .product-img img { object-position: center 40%; }
+.shop-individual p, .shop-individual .list { max-width: 720px; }
+.shop-individual h2 { font-size: clamp(2.2rem, 7.5vw, 6.5rem); overflow-wrap: anywhere; }
+.shop-featured + .shop-individual { border-top: 0; padding-top: 0; }
