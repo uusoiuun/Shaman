@@ -584,3 +584,5 @@ body.no-scroll { overflow: hidden; }
 }
 
 .shop-featured { margin-top: 40px; }
+.shop-featured .price { font-size: 2rem; font-weight: 800; color: var(--frost); margin: 8px 0 4px; }
+.product-img img { object-position: center 40%; }
