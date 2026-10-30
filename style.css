@@ -589,3 +589,7 @@ body.no-scroll { overflow: hidden; }
 .shop-individual p, .shop-individual .list { max-width: 720px; }
 .shop-individual h2 { font-size: clamp(2.2rem, 7.5vw, 6.5rem); overflow-wrap: anywhere; }
 .shop-featured + .shop-individual { border-top: 0; padding-top: 0; }
+.poster video { display: block; width: 100%; height: auto; background: var(--panel); }
+.shop-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.shop-featured + .shop-featured { border-top: 0; margin-top: 0; padding-top: 0; }
+.cta-box .price { font-size: 2rem; font-weight: 800; color: var(--frost); margin: 0 0 4px; }
