@@ -601,3 +601,5 @@ body.no-scroll { overflow: hidden; }
 .feature p a { color: var(--moss); }
 .feature + .feature { border-top: 0; }
 .feature .eyebrow { margin-bottom: 1.1em; }
+.shop-featured h2 { overflow-wrap: anywhere; }
+#shamanskaya-odezhda h2 { font-size: clamp(2.2rem, 4.6vw, 4rem); }
