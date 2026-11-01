@@ -194,3 +194,10 @@
   window.addEventListener('hashchange', route);
   route();
 })();
+
+// Временные цены: после даты из data-until текст меняется на data-after (пустой — строка скрывается)
+document.querySelectorAll('[data-until]').forEach(function (el) {
+  if (Date.now() < Date.parse(el.getAttribute('data-until'))) return;
+  var after = el.getAttribute('data-after');
+  if (after) el.textContent = after; else el.hidden = true;
+});
