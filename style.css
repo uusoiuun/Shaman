@@ -600,3 +600,4 @@ body.no-scroll { overflow: hidden; }
 .price-list b { color: var(--frost); font-size: 1.15rem; }
 .feature p a { color: var(--moss); }
 .feature + .feature { border-top: 0; }
+.feature .eyebrow { margin-bottom: 1.1em; }
