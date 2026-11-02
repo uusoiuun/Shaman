@@ -607,3 +607,4 @@ body.no-scroll { overflow: hidden; }
 .moscow h2 { font-size: clamp(2.6rem, 6vw, 5rem); }
 .cta-moscow { color: var(--text) !important; border-left: 2px solid var(--moss); padding-left: 12px; }
 .cta-moscow b { color: var(--moss); }
+.cta-sep { width: 100%; border: 0; border-top: 1px solid var(--line); margin: 14px 0 6px; }
