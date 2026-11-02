@@ -603,3 +603,7 @@ body.no-scroll { overflow: hidden; }
 .feature .eyebrow { margin-bottom: 1.1em; }
 .shop-featured h2 { overflow-wrap: anywhere; }
 #shamanskaya-odezhda h2 { font-size: clamp(2.2rem, 4.6vw, 4rem); }
+.moscow { margin-top: 8px; }
+.moscow h2 { font-size: clamp(2.6rem, 6vw, 5rem); }
+.cta-moscow { color: var(--text) !important; border-left: 2px solid var(--moss); padding-left: 12px; }
+.cta-moscow b { color: var(--moss); }
